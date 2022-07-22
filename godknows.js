@@ -31,3 +31,4 @@ function endQuestion() {
 //printQuestion("Give the Latin word and its meaning that appears in the mottoes of both the state of New Mexico and the University of Chicago.")
 
 printQuestion()
+//Idk making sure this saves
