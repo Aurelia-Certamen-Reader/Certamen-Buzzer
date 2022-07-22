@@ -11,6 +11,7 @@ function sleep(time){
 async function printQuestion(){
     //Reset
     document.getElementById("answerInput").style.visibility="hidden"
+    document.getElementById("answerline").style.visibility="hidden"
     buzz=false
     questionNumber+=1
     //Sets up text
@@ -32,6 +33,7 @@ function endQuestion() {
 
 function displayAnswer(){
     document.getElementById("answerline").innerHTML = questionBank[questionNumber][1]
+    document.getElementById("answerline").style.visibility="visible"
 }
 //printQuestion("Give the Latin word and its meaning that appears in the mottoes of both the state of New Mexico and the University of Chicago.")
 
