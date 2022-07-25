@@ -38,6 +38,7 @@ function endQuestion() {
 }
 
 function displayAnswer(){
+    document.getElementById("question").innerHTML=questionBank[questionNumber][0]
     document.getElementById("answerline").innerHTML = questionBank[questionNumber][1]
     document.getElementById("answerline").style.visibility="visible"
 }
@@ -47,6 +48,25 @@ function nextQuestion() {
     document.getElementById("answerInput").style.visibility="hidden"
     document.getElementById('answerInput').value=""
     document.getElementById("answerline").style.visibility="hidden"
+    logLastQuestion()
     questionNumber+=1
     printQuestion()
+}
+
+function logLastQuestion(){
+    questionLog = document.getElementById("pastQuestions")
+    const questionData = "Custom question " + (questionNumber+1)
+    const lastQuestion = questionBank[questionNumber]
+    const newLogHead = document.createElement("button")
+    newLogHead.appendChild(document.createTextNode(questionData))
+    const newLogBody= ""
+    questionLog.insertBefore(newLogHead, questionLog.firstChild)
+}
+
+function initializeCollapsible(button){
+    button.addEventListener("click", function(){ //function toggles between display and not
+        if (button.nextElementSibling.style.display=="none"){
+            button.nextElementSibling.style.display="block"}
+        else {button.nextElementSibling.style.display="none"}
+    })
 }
