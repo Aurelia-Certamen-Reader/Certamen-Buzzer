@@ -14,17 +14,21 @@ async function printQuestion(){
     document.getElementById("answerInput").style.visibility="hidden"
     document.getElementById('answerInput').value=""
     document.getElementById("answerline").style.visibility="hidden"
-    buzz=false
     questionNumber+=1
     //Sets up text
     let questionText = questionBank[questionNumber][0].split(" ")
     //Question Printing
     document.getElementById("question").innerHTML = ""
     for (let x of questionText){
+        document.getElementById("next").innerHTML="Skip"
         if (buzz == false){
             document.getElementById("question").append(x + " ")
             await sleep(readSpeed);
-        } else{break}
+        } 
+        else{
+            document.getElementById("next").innerHTML="Next"
+            break
+        }
     }
 }
 
@@ -36,6 +40,17 @@ function endQuestion() {
 function displayAnswer(){
     document.getElementById("answerline").innerHTML = questionBank[questionNumber][1]
     document.getElementById("answerline").style.visibility="visible"
+}
+
+function nextOrSkip(){
+    if (buzz==true){ //Next
+        buzz=false
+        printQuestion()
+    }
+    if (buzz==false){ //Skip
+        buzz=true
+        //wait for the resolution of a promise before printing question (maybe this can be combined back with the other one so that they both wait for the thing to stop)
+    }
 }
 //printQuestion("Give the Latin word and its meaning that appears in the mottoes of both the state of New Mexico and the University of Chicago.")
 
