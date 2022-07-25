@@ -1,4 +1,3 @@
-//const $ = document.getElementById;
 let readSpeed = 250
 let buzz = false
 let questionNumber = -1
@@ -13,11 +12,7 @@ function sleep(time){
 }
 
 async function printQuestion(){
-    //Reset
-    document.getElementById("answerInput").style.visibility="hidden"
-    document.getElementById('answerInput').value=""
-    document.getElementById("answerline").style.visibility="hidden"
-    questionNumber+=1
+    //Ensures first print instance stops before starting the next one
     await sleep(readSpeed)
     buzz=false
     //Sets up text
@@ -32,7 +27,6 @@ async function printQuestion(){
         } 
         else{
             document.getElementById("next").innerHTML="Next"
-            console.log("Return")
             return
         }
     }
@@ -46,4 +40,13 @@ function endQuestion() {
 function displayAnswer(){
     document.getElementById("answerline").innerHTML = questionBank[questionNumber][1]
     document.getElementById("answerline").style.visibility="visible"
+}
+
+//Basically resets + advances questionNumber
+function nextQuestion() {
+    document.getElementById("answerInput").style.visibility="hidden"
+    document.getElementById('answerInput').value=""
+    document.getElementById("answerline").style.visibility="hidden"
+    questionNumber+=1
+    printQuestion()
 }
