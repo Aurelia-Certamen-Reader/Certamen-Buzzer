@@ -16,10 +16,10 @@ async function printQuestion(){
     await sleep(readSpeed)
     document.getElementById("next").disabled=false
     buzz=false
+    document.getElementById("question").innerHTML = ""
     //Sets up text
     let questionText = questionBank[questionNumber][0].split(" ")
     //Question Printing
-    document.getElementById("question").innerHTML = ""
     for (let x of questionText){
         if (buzz == false){
             document.getElementById("question").append(x + " ")
@@ -49,20 +49,40 @@ function nextQuestion() {
     document.getElementById("answerInput").style.visibility="hidden"
     document.getElementById('answerInput').value=""
     document.getElementById("answerline").style.visibility="hidden"
-    //logLastQuestion()
+    if (document.getElementById("question").innerHTML != "") {
+        logLastQuestion()
+    }
     questionNumber+=1
-
     printQuestion()
 }
 
 function logLastQuestion(){
-    questionLog = document.getElementById("pastQuestions")
-    const questionData = "Custom question " + (questionNumber+1)
+    questionLog = document.getElementById("questionLog")
     const lastQuestion = questionBank[questionNumber]
+    const newDiv = document.createElement("div")
+    //Button/head
+    const questionData = "Custom question " + (questionNumber+1)
     const newLogHead = document.createElement("button")
-    newLogHead.appendChild(document.createTextNode(questionData))
-    const newLogBody= ""
-    questionLog.insertBefore(newLogHead, questionLog.firstChild)
+    newLogHead.appendChild(document.createTextNode(questionData)) //puts text into button
+    newLogHead.classList.add("collapsible")
+    newDiv.appendChild(newLogHead)
+    //Body/well
+    const newLogBody= document.createElement("div")
+    newLogBody.classList.add("well")
+    //question text
+    const text = document.createElement("p")
+    text.append(document.createTextNode(lastQuestion[0]))
+    text.classList.add("question")
+    //answer text
+    const answer = document.createElement("p")
+    answer.append(document.createTextNode(lastQuestion[1]))
+    answer.classList.add("answer")
+    //append question and answer to well
+    newLogBody.appendChild(text)
+    newLogBody.appendChild(answer)
+    newDiv.appendChild(newLogBody)
+    //console.log(newDiv)
+    questionLog.insertBefore(newDiv, questionLog.firstChild)
 }
 
 function initializeCollapsible(button){

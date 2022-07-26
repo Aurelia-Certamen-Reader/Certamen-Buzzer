@@ -7,11 +7,10 @@
     <h2>Messy but functional - just like its creator!</h2>
     <button type="button" onclick="buzz=true; endQuestion()">Buzz</button> 
     <button type="button" onclick="buzz=true; nextQuestion()" id="next">Start</button>
-    <div class="well"><p id="question"></p>
-    </div>
+    <div class="well"><p id="question" class="question"></p></div>
     <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
     <p id="answerline"></p>
-    <div id="pastQuestions">
+    <div id="questionLog">
     </div>
     <!--<button type="button" class="collapsible" id="test">Test Collapsible</button>
     <div>lorem ipsum etc</div>-->
