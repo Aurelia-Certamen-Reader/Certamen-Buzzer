@@ -2,7 +2,7 @@ let readSpeed = 250
 let questionNumber = -1
 const questionBank = [
 ["Pretend this is an actual question! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat. Yeah, I dunno man.", "Pretend this is an answer"], 
-["Next question! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat.", "It's a different answer now!"],
+["Next question! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat." + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat.", "It's a different answer now!"],
 ["Question three: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat.", "Would you look at that, a third answer for a third question."]
 ]
 
@@ -68,7 +68,6 @@ function logLastQuestion(){
     newDiv.appendChild(newLogHead)
     //Body/well
     const newLogBody= document.createElement("div")
-    newLogBody.classList.add("well")
     //question text
     const text = document.createElement("p")
     text.append(document.createTextNode(lastQuestion[0]))
@@ -81,14 +80,24 @@ function logLastQuestion(){
     newLogBody.appendChild(text)
     newLogBody.appendChild(answer)
     newDiv.appendChild(newLogBody)
-    //console.log(newDiv)
+    newLogBody.classList.add("content")
+    //add log to document, then initialize collapsible
     questionLog.insertBefore(newDiv, questionLog.firstChild)
+    initializeCollapsible(newLogHead)
 }
 
 function initializeCollapsible(button){
-    button.addEventListener("click", function(){ //function toggles between display and not
-        if (button.nextElementSibling.style.display=="none"){
-            button.nextElementSibling.style.display="block"}
-        else {button.nextElementSibling.style.display="none"}
+    button.addEventListener("click", async function(){ //function toggles between display and not
+        if (button.nextElementSibling.style.maxHeight){
+            button.nextElementSibling.style.maxHeight=null
+            await sleep(900)
+            button.nextElementSibling.style.paddingTop=0
+            await sleep(50)
+            button.nextElementSibling.classList.remove("well")
+        }
+        else {
+            button.nextElementSibling.style.maxHeight=button.nextElementSibling.scrollHeight+20+"px"
+            button.nextElementSibling.classList.add("well")
+        }
     })
 }
