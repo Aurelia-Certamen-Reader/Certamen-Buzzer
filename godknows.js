@@ -1,6 +1,5 @@
 let readSpeed = 250
 let questionNumber = 0
-let stopped=true
 const questionBank = [
 ["Pretend this is an actual question! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat. Yeah, I dunno man.", "Pretend this is an answer"], 
 ["Next question! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat.", "It's a different answer now!"],
@@ -12,8 +11,8 @@ function sleep(time){
 }
 
 async function printQuestion(){
-    //Ensures first print instance stops before starting the next one
     await sleep(readSpeed)
+    document.getElementById("next").disabled=false
     buzz=false
     //Sets up text
     let questionText = questionBank[questionNumber][0].split(" ")
@@ -26,7 +25,6 @@ async function printQuestion(){
             await sleep(readSpeed);
         } 
         else{
-            document.getElementById("next").disabled=false
             return
         }
     }
@@ -46,7 +44,8 @@ function displayAnswer(){
 
 //Basically resets + advances questionNumber
 function nextQuestion() {
-    if (stopped=false){document.getElementById("next").disabled=true}
+    //Ensures next cannot be spammed
+    document.getElementById("next").disabled=true
     document.getElementById("answerInput").style.visibility="hidden"
     document.getElementById('answerInput').value=""
     document.getElementById("answerline").style.visibility="hidden"
