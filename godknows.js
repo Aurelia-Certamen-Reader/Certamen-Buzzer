@@ -90,7 +90,9 @@ function initializeCollapsible(button){
     button.addEventListener("click", async function(){ //function toggles between display and not
         if (button.nextElementSibling.style.maxHeight){
             button.nextElementSibling.style.maxHeight=null
-            await sleep(190)
+            await sleep(900)
+            button.nextElementSibling.style.paddingTop=0
+            await sleep(50)
             button.nextElementSibling.classList.remove("well")
         }
         else {
