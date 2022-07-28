@@ -3,6 +3,38 @@
     font-size: 15px;
 }
 
+#main{
+    display:flexbox;
+    margin-right: 20px;
+    width: 100%;
+}
+
+.menu{
+    /*height: 100%;
+    z-index: 3;
+    position: fixed;
+    right: 0;
+    top: 0;*/
+    /*background-color: black;*/
+    max-width: 250px;
+    height: 100px;
+    display:flexbox;
+}
+
+.menuHead{
+    font-weight: bold;
+    outline: auto;
+    margin-bottom: 0;
+}
+.menuContent{
+    outline: auto;
+    padding: 10px;
+    margin: 0;
+}
+
+.menuContent>p{
+    margin: 5px 0px;
+}
 .well{
     padding:0px 10px 0px 10px;
     background-color:#f5f5f5;
