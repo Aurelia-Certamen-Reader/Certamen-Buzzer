@@ -104,13 +104,17 @@ function initializeCollapsible(button){
 
 const maxMenuSize = 200
 const menuSizePercent = 20
-let menuSize = ""
+//Potential for minMenuSize
 function resizeMenu(){
-    if (screen.width*menuSizePercent/100 > maxMenuSize){
-        menuSize=200}
-    else{menuSize = screen.width*menuSizePercent/100}
-    document.getElementById("main").style.marginRight=menuSize+"px"
-    document.getElementById("menu").style.width=menuSize+"px"
+    if (innerWidth*menuSizePercent/100 > maxMenuSize){
+        menuSize=200
+        document.getElementById("main").style.marginRight="200px"
+        document.getElementById("menu").style.width="200px"
+    }
+    else{
+        document.getElementById("main").style.marginRight="20%"
+        document.getElementById("menu").style.width="20%"}
+    
 }
 
 resizeMenu()
