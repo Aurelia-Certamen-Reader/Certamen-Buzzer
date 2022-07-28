@@ -3,16 +3,17 @@
 <head><link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>World's Ugliest Certamen Buzzer</h1>
-    <h2>Messy but functional - just like its creator!</h2>
-    <button type="button" onclick="buzz=true; endQuestion()">Buzz</button> 
-    <button type="button" onclick="buzz=true; nextQuestion()" id="next">Start</button>
-    <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px;"><p id="question" class="question"></p></div>
-    <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
-    <p id="answerline"></p>
-    <div id="questionLog"></div>
-    <!--<button type="button" class="collapsible" id="test">Test Collapsible</button>
-    <div>lorem ipsum etc</div>-->
+    <div id="main">
+        <h1>World's Ugliest Certamen Buzzer</h1>
+        <h2>Messy but functional - just like its creator!</h2>
+        <button type="button" onclick="buzz=true; endQuestion()">Buzz</button> 
+        <button type="button" onclick="buzz=true; nextQuestion()" id="next">Start</button>
+        <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px;"><p id="question" class="question"></p></div>
+        <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
+        <p id="answerline"></p>
+        <div id="questionLog"></div>
+    </div>
+    <div class="menu" id="menu"></div>
 </body> 
 <script src="script.js"></script>
 </html>

@@ -3,6 +3,15 @@
     font-size: 15px;
 }
 
+.menu{
+    height: 100%;
+    background-color: black;
+    z-index: 3;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
 .well{
     padding:0px 10px 0px 10px;
     background-color:#f5f5f5;

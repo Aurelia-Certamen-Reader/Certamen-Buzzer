@@ -101,3 +101,16 @@ function initializeCollapsible(button){
         }
     })
 }
+
+const maxMenuSize = 200
+const menuSizePercent = 20
+let menuSize = ""
+function resizeMenu(){
+    if (screen.width*menuSizePercent/100 > maxMenuSize){
+        menuSize=200}
+    else{menuSize = screen.width*menuSizePercent/100}
+    document.getElementById("main").style.marginRight=menuSize+"px"
+    document.getElementById("menu").style.width=menuSize+"px"
+}
+
+resizeMenu()
