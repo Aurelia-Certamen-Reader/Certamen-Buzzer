@@ -92,16 +92,18 @@ function logLastQuestion(){
 
 function initializeCollapsible(button){
     button.addEventListener("click", async function(){ //function toggles between display and not
-        if (button.nextElementSibling.style.maxHeight){
+        if (button.nextElementSibling.style.maxHeight){ //Collapse
             button.nextElementSibling.style.maxHeight=null
             await sleep(900)
             button.nextElementSibling.style.paddingTop=0
             await sleep(50)
             button.nextElementSibling.classList.remove("well")
+            button.style.borderRadius="4px"
         }
-        else {
+        else { //Expand
             button.nextElementSibling.style.maxHeight=button.nextElementSibling.scrollHeight+20+"px"
             button.nextElementSibling.classList.add("well")
+            button.style.borderRadius="4px 4px 0px 0px"
         }
     })
 }
