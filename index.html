@@ -3,9 +3,10 @@
 <head><link rel="stylesheet" href="style.css">
 </head>
 <body>
+<h1>World's Ugliest Certamen Buzzer</h1>
+<h2>Messy but functional - just like its creator!</h2>
+<div style="display:flex; width: 100%; justify-content: space-between;">
     <div id="main">
-        <h1>World's Ugliest Certamen Buzzer</h1>
-        <h2>Messy but functional - just like its creator!</h2>
         <button type="button" onclick="buzz=true; endQuestion()">Buzz</button> 
         <button type="button" onclick="buzz=true; nextQuestion()" id="next">Start</button>
         <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px;"><p id="question" class="question"></p></div>
@@ -13,7 +14,18 @@
         <p id="answerline"></p>
         <div id="questionLog"></div>
     </div>
-    <div class="menu" id="menu"></div>
+    <div class="menu" id="menu">
+        <p class="menuHead">Instructions</p>
+        <div class="menuContent"><p>I mean, it's just a buzzer, how hard can it be? I think it's fairly intuitive, but y'know. Whatever floats your boat I guess. I'll be less condescending...eventually</p>
+        </div>
+        <p class="menuHead">Settings</p>
+        <div class="menuContent">
+            <p>Reading speed:&Tab;<input id="readSpeed" style="width: 30px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
+            <p>here's another element</p>
+        </div>
+
+    </div>
+</div>
 </body> 
 <script src="script.js"></script>
 </html>
