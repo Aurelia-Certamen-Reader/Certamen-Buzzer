@@ -21,11 +21,31 @@
         </div>
         <p class="menuHead">Settings</p>
         <div class="menuContent">
-            <p>Reading speed:&Tab;<input id="readSpeed" style="width: 30px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
+            <p>Reading speed:&Tab;<input id="readSpeed" style="width: 35px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
             <p>Buzzer Delay <span class="comingSoon">Coming Soon!</span></p> 
             <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
         </div>
-
+        <p class="menuHead">Search for Questions <span class="comingSoon">Coming much later!</span></p>
+        <div class="menuContent"></div>
+        <p class="menuHead">Upload Custom Questions</p>
+        <div class="menuContent">
+            <form>
+                <textarea style="width: 90%;"></textarea>
+                <input type="radio" name="uploadType" id="pasteText">
+                <label for="pasteText">Paste text</label> <br>
+                <input type="radio" name="uploadType" id="uploadPDF">
+                <label for="uploadPDF">Upload PDF</label> <br>
+                <input type="radio" name="uploadType" id="googleDocLink">
+                <label for="googleDocLink">Link to Google Doc</label>
+            </form>
+        </div> 
+        <p class="menuHead">About</p>
+        <div class="menuContent">
+            <p>Made by Saffron Liu</p> <br>
+            <p style="font-size: small; color: gray;">Inspired by <a style="font-size: small;" href="https://protobowl.com/" target="_blank">Protobowl</a> and <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">QuizBug 2</a></p>
+            <p style="font-size: small;"><a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Github</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">Report a bug</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Suggest a feature</a></p> <br>
+            <a>Fund our buzzer machine</a> <span class="comingSoon">Coming Soon!</span>
+        </div>
     </div>
 </div>
 </body> 
