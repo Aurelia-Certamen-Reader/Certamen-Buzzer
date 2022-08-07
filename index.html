@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html> 
-<head><link rel="stylesheet" href="style.css">
+<head><link rel="stylesheet" href="light_theme.css">
 </head>
 <body>
 <h1>World's Ugliest Certamen Buzzer</h1>
@@ -25,29 +25,32 @@
             <p>Buzzer Delay <span class="comingSoon">Coming Soon!</span></p> 
             <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
         </div>
-        <p class="menuHead">Search for Questions <span class="comingSoon">Coming much later!</span></p>
+        <p class="menuHead" >Search for Questions <span class="comingSoon">Coming much later!</span></p>
         <div class="menuContent"></div>
         <p class="menuHead">Upload Custom Questions</p>
         <div class="menuContent">
             <form>
-                <textarea style="width: 90%;"></textarea>
-                <input type="radio" name="uploadType" id="pasteText">
+                <textarea style="width: 90%; resize: vertical;" id="pasteTextInput" placeholder="Paste questions here..."></textarea>
+                <input type="file" style="max-width: 240px; display: none;" accept=".pdf" id="uploadPDFInput">
+                <input type="url" style="display: none;" id="googleDocLinkInput" placeholder="Link here..."> <br>
+                <input type="radio" name="uploadType" id="pasteText" checked onclick="document.getElementById('pasteTextInput').style.display='initial'; document.getElementById('uploadPDFInput').style.display='none'; document.getElementById('googleDocLinkInput').style.display='none'">
                 <label for="pasteText">Paste text</label> <br>
-                <input type="radio" name="uploadType" id="uploadPDF">
+                <input type="radio" name="uploadType" id="uploadPDF" onclick="document.getElementById('uploadPDFInput').style.display='initial'; document.getElementById('pasteTextInput').style.display='none'; document.getElementById('googleDocLinkInput').style.display='none'">
                 <label for="uploadPDF">Upload PDF</label> <br>
-                <input type="radio" name="uploadType" id="googleDocLink">
-                <label for="googleDocLink">Link to Google Doc</label>
+                <input type="radio" name="uploadType" id="googleDocLink" onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('uploadPDFInput').style.display='none'; document.getElementById('pasteTextInput').style.display='none'">
+                <label for="googleDocLink">Link to Google Doc</label> <br>
+                <input type="submit" style="margin-top:10px;" value="Upload!">
             </form>
         </div> 
         <p class="menuHead">About</p>
         <div class="menuContent">
-            <p>Made by Saffron Liu</p> <br>
-            <p style="font-size: small; color: gray;">Inspired by <a style="font-size: small;" href="https://protobowl.com/" target="_blank">Protobowl</a> and <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">QuizBug 2</a></p>
-            <p style="font-size: small;"><a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Github</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">Report a bug</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Suggest a feature</a></p> <br>
+            <p>Made by Saffron Liu</p>
+            <p style="font-size: small;">Inspired by <a style="font-size: small;" href="https://protobowl.com/" target="_blank">Protobowl</a> and <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">QuizBug 2</a></p> <br>
+            <p style="font-size: small;"><a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Github</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">Report a bug</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Suggest a feature</a></p>
             <a>Fund our buzzer machine</a> <span class="comingSoon">Coming Soon!</span>
         </div>
     </div>
 </div>
 </body> 
-<script src="script.js"></script>
+<script src="main.js"></script>
 </html>
