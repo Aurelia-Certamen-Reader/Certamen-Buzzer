@@ -1,5 +1,6 @@
-const tossupMarkers = /\s*TU\s[0-9]+\s*/
-const bonusMarkers = /\s*B(1|2)\s*/
+const tossupMarkers = /\s*TU\s[0-9]+\s*/ //"TU #"
+const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
+//^ add to them using | 
 let bonusMode = "exclude" //alternates are "as tossups"
 let newQuestions = []
 const sampleText = `TU 1
@@ -222,6 +223,18 @@ Constantine set up a new capital at Byzantium, which he renamed after himself. G
 day name of this city.
 ISTANBUL`
 
+function getQuestions(){
+    if (document.getElementById("pasteText").checked){
+        return document.getElementById("pasteTextInput").value
+    }
+    else if (document.getElementById("uploadPDF").checked) {
+        return document.getElementById("uploadPDFInput").value
+    } 
+    else if(document.getElementById("googleDocLink").checked){
+        return document.getElementById("googleDocLinkInput").value
+    }
+}
+
 function splitQuestions(fullText){
     if (bonusMode == "as tossups"){
         newQuestions = fullText.split(tossupMarkers /*or bonus markers, maybe you'll have to do multiple splits and merge*/) //change sample text to the value from the form!
@@ -233,17 +246,10 @@ function splitQuestions(fullText){
         for (let i = 0; i < newQuestions.length; i++){
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
         }
-        /*for (let x of newQuestions){
-            x = x.replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), "")
-            
-        }*/
     }
     //Split question from answer and add them to the question bank
     for (let x of newQuestions){
         singleQuestion = [x.match(/(.|\s)*?(?=\n[^a-z])/)[0], x.match(/(?<=\n)[^a-z]{3,}/)[0]]
         questionBank.push(singleQuestion)
     }
-    //to delete
 }
-
-splitQuestions(sampleText)
