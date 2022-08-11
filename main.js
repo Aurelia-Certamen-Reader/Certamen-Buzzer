@@ -39,7 +39,6 @@ async function printQuestion(){
             }
         }
     }
-    
 }
 
 function endQuestion() {

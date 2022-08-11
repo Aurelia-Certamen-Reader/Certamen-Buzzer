@@ -238,19 +238,12 @@ function splitQuestions(fullText){
             
         }*/
     }
-    console.log(newQuestions)
     //Split question from answer and add them to the question bank
     for (let x of newQuestions){
-        //console.log(x)
         singleQuestion = [x.match(/(.|\s)*?(?=\n[^a-z])/)[0], x.match(/(?<=\n)[^a-z]{3,}/)[0]]
-        console.log(singleQuestion)
-        //questionBank.push(singleQuestion)
+        questionBank.push(singleQuestion)
     }
     //to delete
 }
 
 splitQuestions(sampleText)
-//for i in [] append to question bank
-function reset(){
-    newQuestions[0] = idk
-}
