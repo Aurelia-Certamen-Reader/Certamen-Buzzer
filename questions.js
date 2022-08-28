@@ -1,7 +1,8 @@
-const tossupMarkers = /\s*TU\s[0-9]+\s*/ //"TU #"
+const nonAlphaNum = '[^(a-z|A-Z|0-9)]*'
+const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
 const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
-const questionPattern = /(.|\s)*?(?=\n[^a-z]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
-const answerPattern = /(?<=\n)[^a-z]+$/
+const questionPattern = /(.|\s)*?(?=\s+[^a-z]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
+const answerPattern = /(?<=\s+)[^a-z]+$/
 //^ add to them using | 
 let bonusMode = "exclude" //alternates are "as tossups"
 let newQuestions = []
@@ -249,11 +250,11 @@ function splitQuestions(fullText){
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
         }
     }
+    console.log(newQuestions)
     //Split question from answer and add them to the question bank
     for (let x of newQuestions){
         singleQuestion = [x.match(questionPattern)[0], x.match(answerPattern)[0]] //match returns an array and we only care about the first thing in it
         console.log(singleQuestion)
         questionBank.push(singleQuestion)
-        
     }
 }
