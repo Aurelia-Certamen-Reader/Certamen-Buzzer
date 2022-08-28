@@ -8,7 +8,7 @@
 <div style="display:flex; width: 100%; justify-content: space-between;">
     <div id="main">
         <button type="button" onclick="buzz=true; endQuestion()">Buzz</button>
-        <button type="button" onclick="buzz=true; nextQuestion()" id="next">Start</button>
+        <button type="button" onclick="buzz=true; nextQuestion()" id="next" disabled>Start</button>
         <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
         <p id="answerline" style="display:inline"></p>
         <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px;"><p id="question" class="question"></p></div>
@@ -46,7 +46,7 @@
                 <label for="uploadPDF">Upload PDF</label> <span class="comingSoon">Coming Soon!</span><br>
                 <input type="radio" name="uploadType" id="googleDocLink" onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('uploadPDFInput').style.display='none'; document.getElementById('pasteTextInput').style.display='none'">
                 <label for="googleDocLink">Link to Google Doc</label> <span class="comingSoon">Coming Soon!</span><br>
-                <input type="button" style="margin-top:10px;" value="Upload!" onclick="splitQuestions(getQuestions());">
+                <input type="button" style="margin-top:10px;" value="Upload!" onclick="splitQuestions(getQuestions()); enableStart();">
             </form>
         </div> 
         <p class="menuHead">About</p>

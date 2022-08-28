@@ -260,3 +260,9 @@ function splitQuestions(fullText){
         questionBank.push(singleQuestion)
     }
 }
+
+function enableStart(){
+    if (questionBank.length > 0) {
+        document.getElementById("next").disabled=false
+    }
+}
