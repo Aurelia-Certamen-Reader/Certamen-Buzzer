@@ -1,9 +1,11 @@
+
 const nonAlphaNum = '[^(a-z|A-Z|0-9)]*'
 const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
 const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
+//^ add to them using | 
 const questionPattern = /(.|\s)*?(?=\s+[^a-z]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
 const answerPattern = /(?<=\s+)[^a-z]+$/
-//^ add to them using | 
+
 let bonusMode = "exclude" //alternates are "as tossups"
 let newQuestions = []
 const sampleText = `TU 1
