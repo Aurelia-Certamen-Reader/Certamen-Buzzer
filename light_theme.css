@@ -1,3 +1,7 @@
+html{
+    background-color:#f9f9f9;
+}
+
 *{
     font-family: Calibri;
     font-size: 15px;
@@ -9,26 +13,36 @@
 }
 
 ul{
-    padding-left: 10;
+    padding-left: 20px;
+    margin: 0px;
 }
 
 .menu{
     max-width: 250px;
     min-width: 230px;
-    height: 100px;
+}
+.menuItem{
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 0 3px gray;
+    margin-bottom: 15px;
+    padding: 10px
 }
 
 .menuHead{
     font-weight: bold;
-    outline: auto;
     margin: 0;
+    /*padding: 5px;
+    background-color: white;
+    border-radius: 3px 3px 0px 0px; */
 }
-.menuContent{
-    outline: auto;
+/*.menuContent{
+    background-color: white;
+    border-radius: 0px 0px 3px 3px;
     padding: 10px;
     margin: 0;
     margin-bottom: 15px;
-}
+}*/
 
 .menuContent p{
     margin: 5px 0px;
