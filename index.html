@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html> 
-<head><link rel="stylesheet" href="light_theme.css">
+<head>
+    <link rel="stylesheet" href="light_theme.css">
 </head>
 <body>
-<h1>World's Ugliest Certamen Buzzer</h1>
-<h2>Messy but functional - just like its creator!</h2>
+<div class="header">
+    <p style="margin:0"><span class="h1">World's Ugliest Certamen Buzzer </span><span class="h2">messy but functional—just like its creator!</span></p>
+</div>
+<!--dummy header (for spacing)--> <div style="height: 55px;"></div>
 <div style="display:flex; width: 100%; justify-content: space-between;">
     <div id="main">
         <button type="button" onclick="buzz=true; endQuestion()">Buzz</button>
         <button type="button" onclick="buzz=true; nextQuestion()" id="next" disabled>Start</button>
         <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
         <p id="answerline" style="display:inline"></p>
-        <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px;"><p id="question" class="question"></p></div>
+        <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px; padding: 10px;"><p id="question" class="question"></p></div>
         
         <div id="questionLog"></div>
     </div>
