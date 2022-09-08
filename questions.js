@@ -259,6 +259,7 @@ function splitQuestions(fullText){
         console.log(singleQuestion)
         questionBank.push(singleQuestion)
     }
+    enableStart()
 }
 
 function enableStart(){
