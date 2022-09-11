@@ -1,54 +1,73 @@
 <!DOCTYPE html>
 <html> 
-<head><link rel="stylesheet" href="light_theme.css">
+<head>
+    <link rel="stylesheet" href="light_theme.css">
 </head>
 <body>
-<h1>World's Ugliest Certamen Buzzer</h1>
-<h2>Messy but functional - just like its creator!</h2>
+<div class="header">
+    <p style="margin:0"><span class="h1">World's Ugliest Certamen Buzzer </span><span class="h2">messy but functional—just like its creator!</span></p>
+</div>
+<!--dummy header (for spacing)--> <div style="height: 55px;"></div>
 <div style="display:flex; width: 100%; justify-content: space-between;">
     <div id="main">
         <button type="button" onclick="buzz=true; endQuestion()">Buzz</button>
-        <button type="button" onclick="buzz=true; nextQuestion()" id="next">Start</button>
+        <button type="button" onclick="buzz=true; nextQuestion()" id="next" disabled>Start</button>
         <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
         <p id="answerline" style="display:inline"></p>
-        <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px;"><p id="question" class="question"></p></div>
+        <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px; padding: 10px;"><p id="question" class="question"></p></div>
         
         <div id="questionLog"></div>
     </div>
     <div class="menu" id="menu">
-        <p class="menuHead">Instructions</p>
-        <div class="menuContent"><p>I mean, it's just a buzzer, how hard can it be? I think it's fairly intuitive, but y'know. Whatever floats your boat I guess. I'll be less condescending . . . eventually. All that to say, <span class="comingSoon">Coming Soon!</span></p>
+        <div class="menuItem">
+            <p class="menuHead">Instructions</p>
+            <div class="menuContent">
+                <!--<p>I mean, it's just a buzzer, how hard can it be? I think it's fairly intuitive, but y'know. Whatever floats your boat I guess. I'll be less condescending . . . eventually. All that to say, <span class="comingSoon">Coming Soon!</span></p>-->
+                <ul>
+                    <li>Upload questions to start</li>
+                    <li>Press buzz to answer or next/skip to advance to the next question</li>
+                    <li>Enter an answer and then hit enter to reveal the correct answer and the rest of the question</li>
+                </ul>
+            </div>
         </div>
-        <p class="menuHead">Settings</p>
-        <div class="menuContent">
-            <p>Reading speed:&Tab;<input id="readSpeed" style="width: 35px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
-            <p>Buzzer Delay <span class="comingSoon">Coming Soon!</span></p> 
-            <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
+        <div class="menuItem">
+            <p class="menuHead">Settings</p>
+            <div class="menuContent">
+                <p>Reading speed:&Tab;<input id="readSpeed" style="width: 35px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
+                <p>Buzzer Delay <span class="comingSoon">Coming Soon!</span></p> 
+                <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
+            </div>
         </div>
-        <p class="menuHead" >Search for Questions <span class="comingSoon">Coming much later!</span></p>
-        <div class="menuContent"></div>
-        <p class="menuHead">Upload Custom Questions</p>
-        <div class="menuContent">
-            <form>
-                <textarea style="width: 90%; resize: vertical;" id="pasteTextInput" placeholder="Paste questions here..."></textarea>
-                <input type="file" style="max-width: 240px; display: none;" accept=".pdf" id="uploadPDFInput">
-                <input type="url" style="display: none;" id="googleDocLinkInput" placeholder="Link here..."> <br>
-                <p>Source:</p>
-                <input type="radio" name="uploadType" id="pasteText" checked onclick="document.getElementById('pasteTextInput').style.display='initial'; document.getElementById('uploadPDFInput').style.display='none'; document.getElementById('googleDocLinkInput').style.display='none'">
-                <label for="pasteText">Paste text</label> <br>
-                <input type="radio" name="uploadType" id="uploadPDF" onclick="document.getElementById('uploadPDFInput').style.display='initial'; document.getElementById('pasteTextInput').style.display='none'; document.getElementById('googleDocLinkInput').style.display='none'">
-                <label for="uploadPDF">Upload PDF</label> <span class="comingSoon">Coming Soon!</span><br>
-                <input type="radio" name="uploadType" id="googleDocLink" onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('uploadPDFInput').style.display='none'; document.getElementById('pasteTextInput').style.display='none'">
-                <label for="googleDocLink">Link to Google Doc</label> <span class="comingSoon">Coming Soon!</span><br>
-                <input type="button" style="margin-top:10px;" value="Upload!" onclick="splitQuestions(getQuestions());">
-            </form>
-        </div> 
-        <p class="menuHead">About</p>
-        <div class="menuContent">
-            <p>Made by Saffron Liu</p>
-            <p style="font-size: small;">Inspired by <a style="font-size: small;" href="https://protobowl.com/" target="_blank">Protobowl</a> and <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">QuizBug 2</a></p> <br>
-            <p style="font-size: small;"><a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Github</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">Report a bug</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Suggest a feature</a></p>
-            <a>Fund our buzzer machine</a> <span class="comingSoon">Coming Soon!</span>
+        <div class="menuItem">
+            <p class="menuHead" >Search for Questions <span class="comingSoon">Coming much later!</span></p>
+            <div class="menuContent"></div>
+        </div>
+        <div class="menuItem">
+            <p class="menuHead">Upload Custom Questions</p>
+            <div class="menuContent">
+                <form>
+                    <textarea style="width: 90%; resize: vertical;" id="pasteTextInput" placeholder="Paste questions here..."></textarea>
+                    <input type="file" style="max-width: 240px; display: none;" accept=".pdf" id="uploadPDFInput">
+                    <input type="url" style="display: none;" id="googleDocLinkInput" placeholder="Link here..."> <br>
+                    <p>Source:</p>
+                    <input type="radio" name="uploadType" id="pasteText" checked onclick="document.getElementById('pasteTextInput').style.display='initial'; document.getElementById('uploadPDFInput').style.display='none'; document.getElementById('googleDocLinkInput').style.display='none'">
+                    <label for="pasteText">Paste text</label> <br>
+                    <input type="radio" name="uploadType" id="uploadPDF" onclick="document.getElementById('uploadPDFInput').style.display='initial'; document.getElementById('pasteTextInput').style.display='none'; document.getElementById('googleDocLinkInput').style.display='none'">
+                    <label for="uploadPDF">Upload PDF</label> <span class="comingSoon">Coming Soon!</span><br>
+                    <input type="radio" name="uploadType" id="googleDocLink" onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('uploadPDFInput').style.display='none'; document.getElementById('pasteTextInput').style.display='none'">
+                    <label for="googleDocLink">Link to Google Doc</label> <span class="comingSoon">Coming Soon!</span><br>
+                    <input type="button" style="margin-top:10px;" value="Upload!" onclick="splitQuestions(getQuestions());">
+                </form>
+            </div> 
+        </div>
+        <div class="menuItem">
+            <p class="menuHead">About</p>
+            <div class="menuContent">
+                <p>Made by Saffron Liu</p>
+                <p style="font-size: small;">Inspired by <a style="font-size: small;" href="https://protobowl.com/" target="_blank">Protobowl</a> and <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">QuizBug 2</a></p> <br>
+                <p style="font-size: small;"><a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Github</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">Report a bug</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Suggest a feature</a></p>
+                <a>Fund our buzzer machine</a> <span class="comingSoon">Coming Soon!</span>
+            </div>
         </div>
     </div>
 </div>
