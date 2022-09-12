@@ -20,10 +20,10 @@ html{
 
 .header{
     background-color: #e6f9ff;
-    width: 100%;
     position:absolute;
     top: 0;
     left:0;
+    right: 0;
     padding: 10px;
     box-shadow: 0 0 3px gray;
 }
