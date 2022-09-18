@@ -76,10 +76,9 @@ ul{
 .menuContent p{
     margin: 5px 0px;
 }
+
 .well{
-    padding: 0px 10px 0px 10px;
     background-color: #eeeeee;
-    /*border:1px solid #e7e7e7;*/
     box-shadow: inset 0 0 2px gray;
     border-radius:0px 0px 4px 4px;
 }
@@ -87,6 +86,9 @@ ul{
 .answer{
     text-align: right;
     font-weight: bold;
+}
+.content > * {
+    margin: 15px;
 }
 
 .collapsible{
@@ -98,15 +100,17 @@ ul{
     border:0;
     box-shadow: 0 0 3px gray;
     border-bottom:0px;
+    font-weight: bold;
 }
 
 .content{
     max-height: 0;
-    transition: max-height 0.9s ease-out, padding 0.05s ease-out;
+    transition: max-height 0.9s ease-out/*, padding 0.05s ease-out*/;
     overflow: hidden;
     padding-top: 0px;
     box-shadow: 0 0 3px gray;
     background-color: #ffffff;
+    border-radius:0px 0px 4px 4px;
 }
 
 .comingSoon{
