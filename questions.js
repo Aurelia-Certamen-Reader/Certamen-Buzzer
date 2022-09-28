@@ -5,11 +5,11 @@
 // '[0-9]+' + nonAlphaNum + 'TU' + nonAlphaNum]
 // const tossupMarkers = new RegExp(markers.join('|'))
 // const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
-const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*TU[^(a-z|A-Z)]+", 'm')
+const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*(?:TU|Tossup)[^(a-z|A-Z)]+", 'm') //?: makes the group non-capturing so it's not included in split
 const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
 //^ add to them using | 
-const questionPattern = /(.|\s)*?(?=\s+[^a-z]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
-const answerPattern = /(?<=\s+)[^a-z]+$/
+const questionPattern = /(.|\s)*?(?=\s+[^a-z_]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
+const answerPattern = /(?<=\s+)[^a-z_]+$/
 
 let bonusMode = "exclude" //alternate is "as tossups"
 let newQuestions = []
