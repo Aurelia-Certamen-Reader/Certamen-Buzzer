@@ -1,12 +1,17 @@
+// export{sampleText, splitQuestions}
 
-const nonAlphaNum = '[^(a-z|A-Z|0-9)]*'
-const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
+// const nonAlphaNum = '[^(a-z|A-Z|0-9)]*'
+// const markers = ['\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum,
+// '[0-9]+' + nonAlphaNum + 'TU' + nonAlphaNum]
+// const tossupMarkers = new RegExp(markers.join('|'))
+// const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
+const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*TU[^(a-z|A-Z)]+", 'm')
 const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
 //^ add to them using | 
 const questionPattern = /(.|\s)*?(?=\s+[^a-z]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
 const answerPattern = /(?<=\s+)[^a-z]+$/
 
-let bonusMode = "exclude" //alternates are "as tossups"
+let bonusMode = "exclude" //alternate is "as tossups"
 let newQuestions = []
 const sampleText = `TU 1
 What mythological group was made up of Thalia, Terpsichore, and seven others?
@@ -247,7 +252,7 @@ function splitQuestions(fullText){
     }
     else if (bonusMode == "exclude"){
         newQuestions = fullText.split(tossupMarkers)
-        newQuestions.splice(0,1)
+        newQuestions.splice(0,1) //removes first empty string
         for (let i = 0; i < newQuestions.length; i++){
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
         }
@@ -267,3 +272,37 @@ function enableStart(){
         document.getElementById("next").disabled=false
     }
 }
+
+const testText = `1:
+TU: Quid Anglicē significat: exercitus? ARMY
+B1: Quid Anglicē significat: dīvus? DIVINE, GOD, GODLY
+B2: Quid Anglicē significat: opēs? WEALTH, MONEY, RESOURCE
+
+2:
+TU: In the Odyssey, who made Odysseus cry with his songs about the Trojan War? DEMODOCUS
+B1: On what island did this occur? SCHERIA / CORFU
+B2: What did the Muse take away from Demodocus in return for his musical talent? HIS EYESIGHT
+3:
+TU: Complete the following analogy: portō : portāret :: audiō : __________ AUDĪRET
+B1: …: portō : portāvīssēmus :: audiō : ________ AUDĪVISSĒMUS
+B2: ...: audiō : audīvissētis :: sum : __________ FUISSĒTIS`
+
+
+// Consider making an array of possible tossup markers, and then iterating through them: if one doesn't work, move to the next ? But that assume consistent formatting throughout the packet
+// I feel like "hey don't include headers and stuff" is reasonable though
+
+/*
+for i in array
+    if the match returns something, set that something as the marker and break
+then split questions using that
+*/
+// tossup markers would have to be ordered by likelihood
+//not necessary if we can reliably remove headers from pdfs
+
+// for (let index = 0; index < 5; index++) {
+//     if (index == 3) {
+//         break;
+//     }
+//     console.log(index)
+    
+// }
