@@ -1,5 +1,3 @@
-// export{sampleText, splitQuestions}
-
 // const nonAlphaNum = '[^(a-z|A-Z|0-9)]*'
 // const markers = ['\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum,
 // '[0-9]+' + nonAlphaNum + 'TU' + nonAlphaNum]
@@ -246,6 +244,7 @@ function getQuestions(){
 }
 
 function splitQuestions(fullText){
+    let addedQuestions = []
     if (bonusMode == "as tossups"){
         newQuestions = fullText.split(tossupMarkers /*or bonus markers, maybe you'll have to do multiple splits and merge*/) 
         newQuestions.splice(0,1)
@@ -257,14 +256,23 @@ function splitQuestions(fullText){
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
         }
     }
-    console.log(newQuestions)
-    //Split question from answer and add them to the question bank
+    //console.log("First Split: " + newQuestions)
+    //Split question from answer
     for (let x of newQuestions){
         singleQuestion = [x.match(questionPattern)[0], x.match(answerPattern)[0]] //match returns an array and we only care about the first thing in it
-        console.log(singleQuestion)
-        questionBank.push(singleQuestion)
+        //console.log(singleQuestion)
+        addedQuestions.push(singleQuestion)
     }
-    enableStart()
+    //console.log(addedQuestions)
+    return addedQuestions
+}
+
+function addToBank(fullText){
+    let toAdd = splitQuestions(fullText)
+    console.log(toAdd)
+    for (let i = 0; i < toAdd.length; i++){
+        questionBank.push(toAdd[i])
+    }
 }
 
 function enableStart(){
