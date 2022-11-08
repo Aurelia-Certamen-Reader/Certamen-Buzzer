@@ -24,5 +24,3 @@ function test() {
     }
     console.groupEnd()
 }
-
-test()

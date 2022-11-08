@@ -8,6 +8,7 @@ const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
 //^ add to them using | 
 const questionPattern = /(.|\s)*?(?=\s+[^a-z_]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
 const answerPattern = /(?<=\s+)[^a-z_]+$/
+const urlPattern = /(?<=\/d\/)[^/]*/
 
 let bonusMode = "exclude" //alternate is "as tossups"
 let newQuestions = []
@@ -21,7 +22,21 @@ function getQuestions(){
         return document.getElementById("uploadPDFInput").value
     } 
     else if(document.getElementById("googleDocLink").checked){
-        return document.getElementById("googleDocLinkInput").value
+        let url = document.getElementById("googleDocLinkInput").value
+        url = url.match(urlPattern)
+        url = "https://www.googleapis.com/drive/v3/files/" + url + "/export?key=AIzaSyDMYZkARA28hTV0YjPlX4klTmxgUyrdgFQ&mimeType=text/plain"
+        fetch(url)
+            .catch((error)=> {
+                console.log(error)
+            })
+            .then((response)=>{
+                if (response.status==200){
+                    response.text()
+                        .then((data) => {console.log(data); addToBank(data)})}
+                else { // do better error handling eventually
+                    console.log("Error: " + response.status + " " + response.statusText)}
+            })     
+        return "" // doesn't add anything to bank but prevents errors
     }
 }
 
@@ -38,14 +53,12 @@ function splitQuestions(fullText){
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
         }
     }
-    //console.log("First Split: " + newQuestions)
+    
     //Split question from answer
     for (let x of newQuestions){
         singleQuestion = [x.match(questionPattern)[0], x.match(answerPattern)[0]] //match returns an array and we only care about the first thing in it
-        //console.log(singleQuestion)
         addedQuestions.push(singleQuestion)
     }
-    //console.log(addedQuestions)
     return addedQuestions
 }
 
