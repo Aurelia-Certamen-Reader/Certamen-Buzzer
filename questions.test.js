@@ -24,9 +24,22 @@ function test() {
     console.group("Tests")
     for (const key in testSet) {
         let str = key + " - "
-        console.log(str + (JSON.stringify(splitQuestions(testSet[key].originalText)) == JSON.stringify(testSet[key].expectedOutput)))
+        // if they don't match
+        if (!(JSON.stringify(splitQuestions(testSet[key].originalText)) == JSON.stringify(testSet[key].expectedOutput))){
+            console.group(str + "%cfalse", "color:red;")
+                console.groupCollapsed("Expected output")
+                console.log(testSet[key].expectedOutput)
+                console.groupEnd()
+
+                console.groupCollapsed("Actual output")
+                console.log(splitQuestions(testSet[key].originalText))
+                console.groupEnd()
+            console.groupEnd()
+            
+        }
+        else{
+            console.log(str + "%ctrue", "color:green;")
+        }
     }
     console.groupEnd()
 }
-
-test()
