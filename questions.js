@@ -18,9 +18,6 @@ function getQuestions(){
     if (document.getElementById("pasteText").checked){
         return document.getElementById("pasteTextInput").value
     }
-    else if (document.getElementById("uploadPDF").checked) {
-        return document.getElementById("uploadPDFInput").value
-    } 
     else if(document.getElementById("googleDocLink").checked){
         let url = document.getElementById("googleDocLinkInput").value
         url = url.match(urlPattern)
