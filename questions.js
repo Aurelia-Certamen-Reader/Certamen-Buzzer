@@ -6,8 +6,8 @@
 const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*(?:TU|Tossup)[^(a-z|A-Z)]+", 'm') //?: makes the group non-capturing so it's not included in split
 const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
 //^ add to them using | 
-const questionPattern = /(.|\s)*?(?=\s+[^a-z_]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
-const answerPattern = /(?<=\s+)[^a-z_]+$/
+// const questionPattern = /(.|\s)*?(?=\s+[^a-z__]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
+const answerPattern = /(?<=\s+)[^a-z__]+$/
 const urlPattern = /(?<=\/d\/)[^/]*/
 
 let bonusMode = "exclude" //alternate is "as tossups"
@@ -50,10 +50,23 @@ function splitQuestions(fullText){
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
         }
     }
+    /* console.group("First split")
+    console.log(newQuestions)
+    console.groupEnd() */
     
-    //Split question from answer
     for (let x of newQuestions){
-        singleQuestion = [x.match(questionPattern)[0], x.match(answerPattern)[0]] //match returns an array and we only care about the first thing in it
+        let answer = x.match(answerPattern)
+        if(!answer){ // if answer is null
+            // error handling here
+            answer = x.match(/(?<=[\.?!:]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
+            
+        }
+        if(answer){ // if the answer exists after both attempts
+            // error handling here
+            answer = answer[0] //.match() returns an array, the first element is the answer
+        }
+        let question = x.replace(answer, "")
+        singleQuestion = [question.trim(), answer.trim()]
         addedQuestions.push(singleQuestion)
     }
     return addedQuestions
@@ -83,11 +96,3 @@ then split questions using that
 */
 // tossup markers would have to be ordered by likelihood
 //not necessary if we can reliably remove headers from pdfs
-
-// for (let index = 0; index < 5; index++) {
-//     if (index == 3) {
-//         break;
-//     }
-//     console.log(index)
-    
-// }
