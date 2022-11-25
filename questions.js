@@ -4,7 +4,7 @@
 // const tossupMarkers = new RegExp(markers.join('|'))
 // const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
 const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*(?:TU|Tossup)[^(a-z|A-Z)]+", 'm') //?: makes the group non-capturing so it's not included in split
-const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
+const bonusMarkers = /\s*B(onus)?\s*(1|2)[\W\s]*/ //"B#"
 //^ add to them using | 
 // const questionPattern = /(.|\s)*?(?=\s+[^a-z__]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
 const answerPattern = /(?<=\s+)[^a-z__]+$/
@@ -47,7 +47,7 @@ function splitQuestions(fullText){
         newQuestions = fullText.split(tossupMarkers)
         newQuestions.splice(0,1) //removes first empty string
         for (let i = 0; i < newQuestions.length; i++){
-            newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
+            newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), "").trim())
         }
     }
     /* console.group("First split")
@@ -61,7 +61,7 @@ function splitQuestions(fullText){
         let answer = x.match(answerPattern)
         if(!answer){ // if answer is null
             // error handling here
-            answer = x.match(/(?<=[\.?!:]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
+            answer = x.match(/(?<=[\.?!:"”]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
         }
         let question = x.replace(answer, "")
         if(answer){ // if the answer exists after both attempts
