@@ -113,3 +113,28 @@ function initializeCollapsible(button){
         }
     })
 }
+
+function updateStatus(type, message){
+    let statusBox = document.getElementById("statusBox")
+    statusBox.setAttribute("class", type)
+    statusBox.firstChild.innerHTML = message
+    statusBox.style.display = "block"
+    sleep(2000)
+        .then(() => {
+            statusBox.style.display = "none"
+            statusBox.firstChild.innerHTML = ""})
+}
+
+//Buzzing hotkey
+let buzzKey = " "
+document.addEventListener('keypress', function(event){ //deprecated but keyup doesn't prevent the downscroll
+    if (event.key=="b" && event.target==document.body) {
+        event.preventDefault()
+        endQuestion()
+        //console.log("????")
+    }
+    //other hotkeys go here as else if statements
+    else{
+        return
+    }
+})
