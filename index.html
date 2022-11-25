@@ -46,14 +46,15 @@
             <p class="menuHead">Upload Custom Questions</p>
             <div class="menuContent">
                 <form>
-                    <textarea style="width: 90%; resize: vertical;" id="pasteTextInput" placeholder="Paste questions here..."></textarea>
+                    <textarea style="width: 95%; resize: vertical;" id="pasteTextInput" placeholder="Paste questions here..."></textarea>
                     <input type="url" style="display: none;" id="googleDocLinkInput" placeholder="Link here..."> <br>
+                    <div id="statusBox" style="display: none;"><p></p></div>
                     <p>Upload Source:</p>
                     <input type="radio" name="uploadType" id="pasteText" checked onclick="document.getElementById('pasteTextInput').style.display='initial'; document.getElementById('googleDocLinkInput').style.display='none'">
                     <label for="pasteText">Paste text</label> <br>
                     <input type="radio" name="uploadType" id="googleDocLink" onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('pasteTextInput').style.display='none'">
                     <label for="googleDocLink">Link to Google Doc</label><br>
-                    <input type="button" style="margin-top:10px;" value="Upload!" onclick="addToBank(getQuestions()); enableStart();">
+                    <input type="button" style="margin-top:10px;" value="Upload!" onclick="getQuestions(); enableStart();">
                 </form>
             </div> 
         </div>
