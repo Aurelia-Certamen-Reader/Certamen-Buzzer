@@ -45,7 +45,11 @@ function splitQuestions(fullText){
     }
     else if (bonusMode == "exclude"){
         newQuestions = fullText.split(tossupMarkers)
-        newQuestions.splice(0,1) //removes first empty string
+        if (newQuestions.length == 1) {
+            newQuestions = fullText.split(/(?<=^|\n)[0-9]{1,2}(?:[\.:]|\s-)\s/)
+        }
+        newQuestions.splice(0,1) //removes first string; if no markers found will consist of full text, if starts with marker first string will be empty, else will contain junk before first q
+        
         for (let i = 0; i < newQuestions.length; i++){
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), "").trim())
         }
