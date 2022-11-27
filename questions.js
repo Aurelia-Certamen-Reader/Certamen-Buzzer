@@ -4,7 +4,7 @@
 // const tossupMarkers = new RegExp(markers.join('|'))
 // const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
 const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*(?:TU|Tossup)[^(a-z|A-Z)]+", 'm') //?: makes the group non-capturing so it's not included in split
-const bonusMarkers = /\s*B(1|2)\s*/ //"B#"
+const bonusMarkers = /\s*B(onus)?\s*(1|2)[\W\s]*/ //"B#"
 //^ add to them using | 
 // const questionPattern = /(.|\s)*?(?=\s+[^a-z__]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
 const answerPattern = /(?<=\s+)[^a-z__]+$/
@@ -45,9 +45,13 @@ function splitQuestions(fullText){
     }
     else if (bonusMode == "exclude"){
         newQuestions = fullText.split(tossupMarkers)
-        newQuestions.splice(0,1) //removes first empty string
+        if (newQuestions.length == 1) {
+            newQuestions = fullText.split(/(?<=^|\n)[0-9]{1,2}(?:[\.:]|\s-)\s/)
+        }
+        newQuestions.splice(0,1) //removes first string; if no markers found will consist of full text, if starts with marker first string will be empty, else will contain junk before first q
+        
         for (let i = 0; i < newQuestions.length; i++){
-            newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
+            newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), "").trim())
         }
     }
     /* console.group("First split")
@@ -57,22 +61,24 @@ function splitQuestions(fullText){
         updateStatus("error", "Could not find questions. Please check supported question formats.")
     }
 
-    for (let x of newQuestions){
-        let answer = x.match(answerPattern)
-        if(!answer){ // if answer is null
-            // error handling here
-            answer = x.match(/(?<=[\.?!:]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
+    for (let x of newQuestions) {
+        if (x) { //making sure question isn't blank
+            let answer = x.match(answerPattern)
+            if (!answer) { // if answer is null
+                // error handling here
+                answer = x.match(/(?<=[\.?!:"”]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
+            }
+            let question = x.replace(answer, "")
+            if (answer) { // if the answer exists after both attempts
+                answer = answer[0] //.match() returns an array, the first element is the answer
+                singleQuestion = [question.trim(), answer.trim()]
+                addedQuestions.push(singleQuestion)
+            }
+            else {
+                updateStatus("error", "Answers were not found for some questions. See the console for more information.")
+                console.log("Answer not found for question: " + question)
+            }
         }
-        let question = x.replace(answer, "")
-        if(answer){ // if the answer exists after both attempts
-            answer = answer[0] //.match() returns an array, the first element is the answer
-            singleQuestion = [question.trim(), answer.trim()]
-            addedQuestions.push(singleQuestion)
-        }
-        else{
-            updateStatus("error", "Answers were not found for some questions. See the console for more information.")
-            console.log("Answer not found for question: " + question)
-        }   
     }
     return addedQuestions
 }
@@ -86,6 +92,7 @@ function addToBank(fullText){
     if (!("error" == document.getElementById("statusBox").className)){
         updateStatus("confirmation", "Questions added!")
     }
+    enableStart()
 }
 
 function enableStart(){
@@ -93,14 +100,3 @@ function enableStart(){
         document.getElementById("next").disabled=false
     }
 }
-
-// Consider making an array of possible tossup markers, and then iterating through them: if one doesn't work, move to the next ? But that assume consistent formatting throughout the packet
-// I feel like "hey don't include headers and stuff" is reasonable though
-
-/*
-for i in array
-    if the match returns something, set that something as the marker and break
-then split questions using that
-*/
-// tossup markers would have to be ordered by likelihood
-//not necessary if we can reliably remove headers from pdfs
