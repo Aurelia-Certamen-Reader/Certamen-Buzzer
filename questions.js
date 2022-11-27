@@ -79,10 +79,6 @@ function splitQuestions(fullText){
                 console.log("Answer not found for question: " + question)
             }
         }
-        else{
-            updateStatus("error", "Answers were not found for some questions. See the console for more information.")
-            console.log("Answer not found for question: " + question)
-        }   
     }
     return addedQuestions
 }
@@ -96,7 +92,6 @@ function addToBank(fullText){
     if (!("error" == document.getElementById("statusBox").className)){
         updateStatus("confirmation", "Questions added!")
     }
-    enableStart()
 }
 
 function enableStart(){
