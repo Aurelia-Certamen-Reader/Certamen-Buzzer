@@ -61,17 +61,23 @@ function splitQuestions(fullText){
         updateStatus("error", "Could not find questions. Please check supported question formats.")
     }
 
-    for (let x of newQuestions){
-        let answer = x.match(answerPattern)
-        if(!answer){ // if answer is null
-            // error handling here
-            answer = x.match(/(?<=[\.?!:"”]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
-        }
-        let question = x.replace(answer, "")
-        if(answer){ // if the answer exists after both attempts
-            answer = answer[0] //.match() returns an array, the first element is the answer
-            singleQuestion = [question.trim(), answer.trim()]
-            addedQuestions.push(singleQuestion)
+    for (let x of newQuestions) {
+        if (x) { //making sure question isn't blank
+            let answer = x.match(answerPattern)
+            if (!answer) { // if answer is null
+                // error handling here
+                answer = x.match(/(?<=[\.?!:"”]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
+            }
+            let question = x.replace(answer, "")
+            if (answer) { // if the answer exists after both attempts
+                answer = answer[0] //.match() returns an array, the first element is the answer
+                singleQuestion = [question.trim(), answer.trim()]
+                addedQuestions.push(singleQuestion)
+            }
+            else {
+                updateStatus("error", "Answers were not found for some questions. See the console for more information.")
+                console.log("Answer not found for question: " + question)
+            }
         }
         else{
             updateStatus("error", "Answers were not found for some questions. See the console for more information.")
@@ -90,6 +96,7 @@ function addToBank(fullText){
     if (!("error" == document.getElementById("statusBox").className)){
         updateStatus("confirmation", "Questions added!")
     }
+    enableStart()
 }
 
 function enableStart(){
