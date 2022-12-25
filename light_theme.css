@@ -63,6 +63,10 @@ ul{
     margin: 0px;
 }
 
+li{
+    margin:5px 0px;
+}
+
 .menu{
     max-width: 250px;
     min-width: 230px;
@@ -116,6 +120,16 @@ ul{
     padding-top: 0px;
     box-shadow: 0 0 3px gray;
     background-color: #ffffff;
+}
+
+code.buttonStyle{
+    border-radius: 2px;
+    padding: 2px;
+    background-color: #d3d3d3;
+    font-size: 13px;
+    border-color: #808080;
+    border-width: 1px;
+    border-style: groove;
 }
 
 .comingSoon{
