@@ -22,10 +22,10 @@
         <div class="menuItem">
             <p class="menuHead">Instructions</p>
             <div class="menuContent">
-                <!--<p>I mean, it's just a buzzer, how hard can it be? I think it's fairly intuitive, but y'know. Whatever floats your boat I guess. I'll be less condescending . . . eventually. All that to say, <span class="comingSoon">Coming Soon!</span></p>-->
                 <ul>
                     <li>Upload questions to start</li>
-                    <li>Press buzz to answer or next/skip to advance to the next question</li>
+                    <li>Press <code class="buttonStyle">Buzz</code> to answer</li>
+                    <li>Press <code class="buttonStyle">Next/Skip</code> to advance to the next question</li>
                     <li>Enter an answer and then hit enter to reveal the correct answer and the rest of the question</li>
                 </ul>
             </div>
@@ -36,6 +36,9 @@
                 <p>Reading speed:&Tab;<input id="readSpeed" style="width: 35px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
                 <p>Buzzer Delay <span class="comingSoon">Coming Soon!</span></p> 
                 <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
+                <p style="font-weight: bold;">Hotkeys:</p>
+                <p>Buzz: <input placeholder="Space" style="width: 75px; text-align: center;" onchange="if(this.value){buzzKey = this.value}else{buzzKey=' '}"></p>
+                <p>Next/Skip: <input placeholder="Right arrow"style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
             </div>
         </div>
         <div class="menuItem">

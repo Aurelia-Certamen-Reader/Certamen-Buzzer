@@ -132,12 +132,12 @@ let buzzKey = " "
 let nextKey = "ArrowRight"
 document.addEventListener('keydown', function(event){
     if(!event.target.matches("textarea") && event.target.type!="text"){ // ensure hotkey isnt triggered by typing in a text entry box
-        event.preventDefault()
         if (event.key==buzzKey) {
+            event.preventDefault()
             endQuestion()
         }
         else if (event.key==nextKey){
-            console.log("hi!")
+            event.preventDefault()
             nextQuestion()
         }
     }
