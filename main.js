@@ -129,14 +129,16 @@ function updateStatus(type, message){
 
 //Buzzing hotkey
 let buzzKey = " "
-document.addEventListener('keypress', function(event){ //deprecated but keyup doesn't prevent the downscroll
-    if (event.key=="b" && event.target==document.body) {
+let nextKey = "ArrowRight"
+document.addEventListener('keydown', function(event){
+    if(!event.target.matches("textarea") && event.target.type!="text"){ // ensure hotkey isnt triggered by typing in a text entry box
         event.preventDefault()
-        endQuestion()
-        //console.log("????")
-    }
-    //other hotkeys go here as else if statements
-    else{
-        return
+        if (event.key==buzzKey) {
+            endQuestion()
+        }
+        else if (event.key==nextKey){
+            console.log("hi!")
+            nextQuestion()
+        }
     }
 })
