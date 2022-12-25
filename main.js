@@ -42,6 +42,7 @@ async function printQuestion(){
 }
 
 function endQuestion() {
+    buzz = true; 
     document.getElementById("answerInput").style.visibility="visible"
     document.getElementById("answerInput").focus()
     document.getElementById("next").innerHTML="Next"
@@ -55,6 +56,7 @@ function displayAnswer(){
 
 //Basically resets + advances questionNumber
 function nextQuestion() {
+    buzz = true; 
     document.getElementById("next").disabled=true
     document.getElementById("answerInput").style.visibility="hidden"
     document.getElementById('answerInput').value=""
