@@ -71,7 +71,7 @@ function splitQuestions(fullText){
             let question = x.replace(answer, "")
             if (answer) { // if the answer exists after both attempts
                 answer = answer[0] //.match() returns an array, the first element is the answer
-                singleQuestion = [question.trim(), answer.trim()]
+                singleQuestion = {tossup: question.trim(), tossupAnswer: answer.trim()}
                 addedQuestions.push(singleQuestion)
             }
             else {

@@ -27,7 +27,7 @@ async function printQuestion(){
     }
     else{
         //Sets up text
-        let questionText = questionBank[questionNumber][0].split(" ")
+        let questionText = questionBank[questionNumber].tossup.split(" ")
         //Question Printing
         for (let x of questionText){
             if (buzz == false){
@@ -49,8 +49,8 @@ function endQuestion() {
 }
 
 function displayAnswer(){
-    document.getElementById("question").innerHTML=questionBank[questionNumber][0]
-    document.getElementById("answerline").innerHTML = questionBank[questionNumber][1]
+    document.getElementById("question").innerHTML=questionBank[questionNumber].tossup
+    document.getElementById("answerline").innerHTML = questionBank[questionNumber].tossupAnswer
     document.getElementById("answerline").style.visibility="visible"
 }
 
@@ -82,11 +82,11 @@ function logLastQuestion(){
     const newLogBody= document.createElement("div")
     //question text
     const text = document.createElement("p")
-    text.append(document.createTextNode(lastQuestion[0]))
+    text.append(document.createTextNode(lastQuestion.tossup))
     text.classList.add("question")
     //answer text
     const answer = document.createElement("p")
-    answer.append(document.createTextNode(lastQuestion[1]))
+    answer.append(document.createTextNode(lastQuestion.tossupAnswer))
     answer.classList.add("answer")
     //append question and answer to well
     newLogBody.appendChild(text)
