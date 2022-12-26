@@ -12,7 +12,7 @@
     <div id="main">
         <button type="button" onclick="buzz=true; endQuestion()">Buzz</button>
         <button type="button" onclick="buzz=true; nextQuestion()" id="next" disabled>Start</button>
-        <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
+        <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer(); this.blur()" style="visibility: hidden;"></input>
         <p id="answerline" style="display:inline"></p>
         <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px; padding: 10px;"><p id="question" class="question"></p></div>
         
