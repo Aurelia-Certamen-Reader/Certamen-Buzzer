@@ -16,8 +16,7 @@ function setReadSpeed(){
 
 async function printQuestion(){
     document.getElementById("next").innerHTML="Skip"
-    //Ensures first print instance stops before starting the next one
-    await sleep(readSpeed)
+    await sleep(readSpeed) //Ensures first print instance stops before starting the next one
     document.getElementById("next").disabled=false
     buzz=false
     document.getElementById("question").innerHTML = ""
@@ -138,7 +137,9 @@ document.addEventListener('keydown', function(event){
         }
         else if (event.key==nextKey){
             event.preventDefault()
-            nextQuestion()
+            if (!document.getElementById("next").disabled){
+                nextQuestion()
+            }
         }
     }
 })
