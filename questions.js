@@ -38,49 +38,42 @@ function splitQuestions(fullText){
         newQuestions = fullText.split(/(?<=^|\n)[0-9]{1,2}(?:[\.:]|\s-)\s/)
     }
     newQuestions.splice(0, 1) //removes first string; if no markers found will consist of full text, if starts with marker first string will be empty, else will contain junk before first q
-    
+    if (newQuestions.length == 0) {
+        updateStatus("error", "Could not find questions. Please check supported question formats.")
+    }
+
     if (bonusMode == "exclude") {
-        for (let i = 0; i < newQuestions.length; i++) {
-            newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), "").trim())
-        }
+        newQuestions.forEach(question =>{
+            splitReturn = separateAnswer(question.replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), ""))
+            addedQuestions.push({ tossup: splitReturn[0], tossupAnswer: splitReturn[1] })
+        })
     }
     else if (bonusMode == "as tossups"){
-        temp = newQuestions
-        newQuestions = []
-        temp.forEach(element => {
+        newQuestions.forEach(element => {
             element.split(bonusMarkers).forEach(question =>{
-                newQuestions.push(question)
+                splitReturn = separateAnswer(question)
+                addedQuestions.push({ tossup: splitReturn[0], tossupAnswer: splitReturn[1] })
             })
         });
     }
     
-    /* console.group("First split")
-    console.log(newQuestions)
-    console.groupEnd() */
-    if(newQuestions.length == 0 ){
-        updateStatus("error", "Could not find questions. Please check supported question formats.")
-    }
-
-    for (let x of newQuestions) {
-        if (x) { //making sure question isn't blank
-            let answer = x.match(answerPattern)
-            if (!answer) { // if answer is null
-                // error handling here
-                answer = x.match(/(?<=[\.?!:"”]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
-            }
-            let question = x.replace(answer, "")
-            if (answer) { // if the answer exists after both attempts
-                answer = answer[0] //.match() returns an array, the first element is the answer
-                singleQuestion = {tossup: question.trim(), tossupAnswer: answer.trim()}
-                addedQuestions.push(singleQuestion)
-            }
-            else {
-                updateStatus("error", "Answers were not found for some questions. See the console for more information.")
-                console.log("Answer not found for question: " + question)
-            }
-        }
-    }
     return addedQuestions
+}
+
+function separateAnswer(text){
+    let answer = text.match(answerPattern)
+    if (!answer) { // if answer is null
+        answer = text.match(/(?<=[\.?!:"”]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
+    }
+    let question = text.replace(answer, "")
+    if (answer) { // if the answer exists after both attempts
+        answer = answer[0] //.match() returns an array, the first element is the answer
+        return [question.trim(), answer.trim()]
+    }
+    else {
+        updateStatus("error", "Answers were not found for some questions. See the console for more information.")
+        console.log("Answer not found for question: " + question)
+    }
 }
 
 function addToBank(fullText){
