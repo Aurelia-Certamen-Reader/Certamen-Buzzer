@@ -56,6 +56,19 @@ function splitQuestions(fullText){
             })
         });
     }
+    else if (bonusMode == "include"){
+        newQuestions.forEach(element => {
+            temp = element.split(bonusMarkers)
+            question = {}
+            question.tossup = separateAnswer(temp[0])[0]
+            question.tossupAnswer = separateAnswer(temp[0])[1]
+            for(let i = 1; i < temp.length; i++){
+                question["bonus"+i] = separateAnswer(temp[i])[0]
+                question["bonusAnswer"+i] = separateAnswer(temp[i])[1]
+            }
+            addedQuestions.push(question)
+        });
+    }
     
     return addedQuestions
 }
