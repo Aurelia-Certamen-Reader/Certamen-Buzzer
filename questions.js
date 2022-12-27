@@ -1,12 +1,5 @@
-// const nonAlphaNum = '[^(a-z|A-Z|0-9)]*'
-// const markers = ['\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum,
-// '[0-9]+' + nonAlphaNum + 'TU' + nonAlphaNum]
-// const tossupMarkers = new RegExp(markers.join('|'))
-// const tossupMarkers = new RegExp('\\s*TU' + nonAlphaNum + '[0-9]+' + nonAlphaNum)
 const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*(?:TU|Tossup)[^(a-z|A-Z)]+", 'm') //?: makes the group non-capturing so it's not included in split
-const bonusMarkers = /\s*B(onus)?\s*(1|2)[\W\s]*/ //"B#"
-//^ add to them using | 
-// const questionPattern = /(.|\s)*?(?=\s+[^a-z__]+$)/ //(.|\s) = anything or a whitespace, n? = contains 0 or one occurence of n (non-greedy matching)
+const bonusMarkers = /\s+B(?:onus)?\s*(?:1|2)[\W\s]+(?:B(?:onus)?\s*(?:1|2)[\W\s]+)?/ //"B#" (second part added to account for questions where bonus 1 and 2 are combined)
 const answerPattern = /(?<=\s+)[^a-z__]+$/
 const urlPattern = /(?<=\/d\/)[^/]*/
 
@@ -39,21 +32,28 @@ function getQuestions(){
 function splitQuestions(fullText){
     updateStatus("status", "Processing questions...")
     let addedQuestions = []
-    if (bonusMode == "as tossups"){
-        newQuestions = fullText.split(tossupMarkers /*or bonus markers, maybe you'll have to do multiple splits and merge*/) 
-        newQuestions.splice(0,1)
+    // initial split
+    newQuestions = fullText.split(tossupMarkers)
+    if (newQuestions.length == 1) {
+        newQuestions = fullText.split(/(?<=^|\n)[0-9]{1,2}(?:[\.:]|\s-)\s/)
     }
-    else if (bonusMode == "exclude"){
-        newQuestions = fullText.split(tossupMarkers)
-        if (newQuestions.length == 1) {
-            newQuestions = fullText.split(/(?<=^|\n)[0-9]{1,2}(?:[\.:]|\s-)\s/)
-        }
-        newQuestions.splice(0,1) //removes first string; if no markers found will consist of full text, if starts with marker first string will be empty, else will contain junk before first q
-        
-        for (let i = 0; i < newQuestions.length; i++){
+    newQuestions.splice(0, 1) //removes first string; if no markers found will consist of full text, if starts with marker first string will be empty, else will contain junk before first q
+    
+    if (bonusMode == "exclude") {
+        for (let i = 0; i < newQuestions.length; i++) {
             newQuestions.splice(i, 1, newQuestions[i].replace(new RegExp(bonusMarkers.source + "(.|\\s)*"), "").trim())
         }
     }
+    else if (bonusMode == "as tossups"){
+        temp = newQuestions
+        newQuestions = []
+        temp.forEach(element => {
+            element.split(bonusMarkers).forEach(question =>{
+                newQuestions.push(question)
+            })
+        });
+    }
+    
     /* console.group("First split")
     console.log(newQuestions)
     console.groupEnd() */
