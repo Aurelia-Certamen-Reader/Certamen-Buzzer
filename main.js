@@ -1,5 +1,6 @@
 let readSpeed = 250
-let questionBank = [];
+let questionBank = []
+let questionParts = []
 
 function sleep(time){
     return new Promise(resolve => {setTimeout(resolve, time)});
@@ -16,7 +17,7 @@ async function printQuestion(){
     buzz=false
     document.getElementById("question").innerHTML = ""
     //Sets up text
-    let questionText = questionBank[0].tossup.split(" ")
+    let questionText = questionBank[0][questionParts[0]].split(" ")
     //Question Printing
     for (let x of questionText) {
         if (buzz == false) {
@@ -37,8 +38,8 @@ function endQuestion() {
 }
 
 function displayAnswer(){
-    document.getElementById("question").innerHTML=questionBank[0].tossup
-    document.getElementById("answerline").innerHTML = questionBank[0].tossupAnswer
+    document.getElementById("question").innerHTML=questionBank[0][questionParts[0]]
+    document.getElementById("answerline").innerHTML = questionBank[0][[questionParts[0]] + "Answer"]
     document.getElementById("answerline").style.visibility="visible"
 }
 
@@ -49,11 +50,27 @@ function nextQuestion() {
     document.getElementById("answerInput").style.visibility="hidden"
     document.getElementById('answerInput').value=""
     document.getElementById("answerline").style.visibility="hidden"
-    if (document.getElementById("question").innerHTML != "") {
+    if (document.getElementById("question").innerHTML != "") { // if it's not the first time
         logLastQuestion()
-        questionBank.splice(0, 1) // removes first question
+        questionParts.splice(0, 1)
+        if (questionParts.length == 0){
+            questionBank.splice(0, 1) // removes first question
+            getQuestionParts(questionBank[0])
+        }
+    }
+    else if (document.getElementById("next").innerHTML = "Start") {
+        getQuestionParts(questionBank[0])
     }
     printQuestion()
+}
+
+function getQuestionParts(question){
+    questionParts = []
+    for(key in question){
+        if(!key.match("Answer")){
+            questionParts.push(key)
+        }
+    }
 }
 
 function logLastQuestion(){

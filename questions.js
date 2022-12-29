@@ -64,7 +64,7 @@ function splitQuestions(fullText){
             question.tossupAnswer = separateAnswer(temp[0])[1]
             for(let i = 1; i < temp.length; i++){
                 question["bonus"+i] = separateAnswer(temp[i])[0]
-                question["bonusAnswer"+i] = separateAnswer(temp[i])[1]
+                question["bonus" + i +"Answer"] = separateAnswer(temp[i])[1]
             }
             addedQuestions.push(question)
         });
