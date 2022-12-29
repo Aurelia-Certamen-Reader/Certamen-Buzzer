@@ -1,5 +1,4 @@
 let readSpeed = 250
-let questionNumber = -1
 let questionBank = [];
 
 function sleep(time){
@@ -16,22 +15,16 @@ async function printQuestion(){
     document.getElementById("next").disabled=false
     buzz=false
     document.getElementById("question").innerHTML = ""
-    if (questionNumber >= questionBank.length) {
-        questionNumber = -1
-        questionBank = []
-    }
-    else{
-        //Sets up text
-        let questionText = questionBank[questionNumber].tossup.split(" ")
-        //Question Printing
-        for (let x of questionText){
-            if (buzz == false){
-                document.getElementById("question").append(x + " ")
-                await sleep(readSpeed);
-            } 
-            else{
-                return
-            }
+    //Sets up text
+    let questionText = questionBank[0].tossup.split(" ")
+    //Question Printing
+    for (let x of questionText) {
+        if (buzz == false) {
+            document.getElementById("question").append(x + " ")
+            await sleep(readSpeed);
+        }
+        else {
+            return
         }
     }
 }
@@ -44,12 +37,12 @@ function endQuestion() {
 }
 
 function displayAnswer(){
-    document.getElementById("question").innerHTML=questionBank[questionNumber].tossup
-    document.getElementById("answerline").innerHTML = questionBank[questionNumber].tossupAnswer
+    document.getElementById("question").innerHTML=questionBank[0].tossup
+    document.getElementById("answerline").innerHTML = questionBank[0].tossupAnswer
     document.getElementById("answerline").style.visibility="visible"
 }
 
-//Basically resets + advances questionNumber
+// Reset + advance to next question
 function nextQuestion() {
     buzz = true; 
     document.getElementById("next").disabled=true
@@ -58,17 +51,17 @@ function nextQuestion() {
     document.getElementById("answerline").style.visibility="hidden"
     if (document.getElementById("question").innerHTML != "") {
         logLastQuestion()
+        questionBank.splice(0, 1) // removes first question
     }
-    questionNumber+=1
     printQuestion()
 }
 
 function logLastQuestion(){
     questionLog = document.getElementById("questionLog")
-    const lastQuestion = questionBank[questionNumber]
+    const lastQuestion = questionBank[0]
     const newDiv = document.createElement("div")
     //Button/head
-    const questionData = "Custom question " + (questionNumber+1)
+    const questionData = "Custom question"
     const newLogHead = document.createElement("button")
     newLogHead.appendChild(document.createTextNode(questionData)) //puts text into button
     newLogHead.classList.add("collapsible")
@@ -91,6 +84,12 @@ function logLastQuestion(){
     //add log to document, then initialize collapsible
     questionLog.insertBefore(newDiv, questionLog.firstChild)
     initializeCollapsible(newLogHead)
+}
+
+function enableStart() {
+    if (questionBank.length > 0) {
+        document.getElementById("next").disabled = false
+    }
 }
 
 function initializeCollapsible(button){

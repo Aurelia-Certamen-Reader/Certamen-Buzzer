@@ -100,9 +100,3 @@ function addToBank(fullText){
     }
     enableStart()
 }
-
-function enableStart(){
-    if (questionBank.length > 0) {
-        document.getElementById("next").disabled=false
-    }
-}
