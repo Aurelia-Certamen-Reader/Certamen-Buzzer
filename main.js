@@ -1,6 +1,7 @@
 let readSpeed = 250
 let questionBank = []
 let questionParts = []
+let showBoni = false
 
 function sleep(time){
     return new Promise(resolve => {setTimeout(resolve, time)});
@@ -52,14 +53,19 @@ function nextQuestion() {
     document.getElementById("answerline").style.visibility="hidden"
     if (document.getElementById("question").innerHTML != "") { // if it's not the first time
         logLastQuestion()
-        questionParts.splice(0, 1)
-        if (questionParts.length == 0){
-            questionBank.splice(0, 1) // removes first question
-            getQuestionParts(questionBank[0])
+        if (showBoni) {
+            questionParts.splice(0, 1)
+            if (questionParts.length == 0) {
+                questionBank.splice(0, 1) // removes first question
+                getQuestionParts(questionBank[0])
+            }
+        }
+        else{
+            questionBank.splice(0, 1)
         }
     }
     else if (document.getElementById("next").innerHTML = "Start") {
-        getQuestionParts(questionBank[0])
+        getQuestionParts(questionBank[0]) // always has tossup as the first one, so works regardless of if showBoni is true/false
     }
     printQuestion()
 }
