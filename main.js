@@ -52,9 +52,8 @@ function nextQuestion() {
     document.getElementById('answerInput').value=""
     document.getElementById("answerline").style.visibility="hidden"
     if (document.getElementById("question").innerHTML != "") { // if it's not the first time
-        logLastQuestion()
+        logLastQuestion(questionParts.splice(0, 1)[0])
         if (showBoni) {
-            questionParts.splice(0, 1)
             if (questionParts.length == 0) {
                 questionBank.splice(0, 1) // removes first question
                 getQuestionParts(questionBank[0])
@@ -62,6 +61,7 @@ function nextQuestion() {
         }
         else{
             questionBank.splice(0, 1)
+            getQuestionParts(questionBank[0])
         }
     }
     else if (document.getElementById("next").innerHTML = "Start") {
@@ -79,34 +79,92 @@ function getQuestionParts(question){
     }
 }
 
-function logLastQuestion(){
+function logLastQuestion(part) {
     questionLog = document.getElementById("questionLog")
     const lastQuestion = questionBank[0]
-    const newDiv = document.createElement("div")
-    //Button/head
-    const questionData = "Custom question"
-    const newLogHead = document.createElement("button")
-    newLogHead.appendChild(document.createTextNode(questionData)) //puts text into button
-    newLogHead.classList.add("collapsible")
-    newDiv.appendChild(newLogHead)
-    //Body/well
-    const newLogBody= document.createElement("div")
-    //question text
-    const text = document.createElement("p")
-    text.append(document.createTextNode(lastQuestion.tossup))
-    text.classList.add("question")
-    //answer text
-    const answer = document.createElement("p")
-    answer.append(document.createTextNode(lastQuestion.tossupAnswer))
-    answer.classList.add("answer")
-    //append question and answer to well
-    newLogBody.appendChild(text)
-    newLogBody.appendChild(answer)
-    newDiv.appendChild(newLogBody)
-    newLogBody.classList.add("content")
-    //add log to document, then initialize collapsible
-    questionLog.insertBefore(newDiv, questionLog.firstChild)
-    initializeCollapsible(newLogHead)
+    if (part == "tossup") {
+        const newDiv = document.createElement("div")
+        //Button/head
+        const questionData = "Custom question"
+        const newLogHead = document.createElement("button")
+        newLogHead.appendChild(document.createTextNode(questionData)) //puts text into button
+        newLogHead.classList.add("collapsible")
+        newDiv.appendChild(newLogHead)
+        //Body/well
+        const newLogBody = document.createElement("div")
+        //question label
+        const questionLabel = document.createElement("p")
+        questionLabel.append(document.createTextNode("TOSSUP"))
+        questionLabel.setAttribute("style", "font-weight: bold;")
+        //question text
+        const text = document.createElement("p")
+        text.append(document.createTextNode(lastQuestion.tossup))
+        text.classList.add("question")
+        //answer text
+        const answer = document.createElement("p")
+        answer.append(document.createTextNode(lastQuestion.tossupAnswer))
+        answer.classList.add("answer")
+        //append question and answer to well contents
+        newLogBody.appendChild(questionLabel)
+        newLogBody.appendChild(text)
+        newLogBody.appendChild(answer)
+        if (!showBoni){
+            questionParts.forEach(part => {
+                //horizontal line
+                const line = document.createElement("hr")
+                line.setAttribute("style", "color: #eeeeee;")
+                //question label
+                const questionLabel = document.createElement("p")
+                questionLabel.append(document.createTextNode(part.replace("bonus", "BONUS ")))
+                questionLabel.setAttribute("style", "font-weight: bold;")
+                //question text
+                const text = document.createElement("p")
+                text.append(document.createTextNode(lastQuestion[part]))
+                text.classList.add("question")
+                //answer text
+                const answer = document.createElement("p")
+                answer.append(document.createTextNode(lastQuestion[part+"Answer"]))
+                answer.classList.add("answer")
+                //append question and answer to well contents
+                newLogBody.appendChild(line)
+                newLogBody.appendChild(questionLabel)
+                newLogBody.appendChild(text)
+                newLogBody.appendChild(answer)
+            })
+        }
+        // append well contents to div containing both head and well
+        newDiv.appendChild(newLogBody)
+        newLogBody.classList.add("content")
+        //add log to document, then initialize collapsible
+        questionLog.insertBefore(newDiv, questionLog.firstChild)
+        initializeCollapsible(newLogHead)
+    }
+    else{ // logging questions part by part when boni are also being shown
+        const logBody = questionLog.firstChild.lastChild
+        //horizontal line
+        const line = document.createElement("hr")
+        line.setAttribute("style", "color: #eeeeee;")
+        //question label
+        const questionLabel = document.createElement("p")
+        questionLabel.append(document.createTextNode(part.replace("bonus", "BONUS ")))
+        questionLabel.setAttribute("style", "font-weight: bold;")
+        //question text
+        const text = document.createElement("p")
+        text.append(document.createTextNode(lastQuestion[part]))
+        text.classList.add("question")
+        //answer text
+        const answer = document.createElement("p")
+        answer.append(document.createTextNode(lastQuestion[part + "Answer"]))
+        answer.classList.add("answer")
+        //append question and answer to well contents
+        logBody.appendChild(line)
+        logBody.appendChild(questionLabel)
+        logBody.appendChild(text)
+        logBody.appendChild(answer)
+        if(logBody.style.maxHeight){
+            logBody.style.maxHeight = logBody.scrollHeight + 20 + "px" // readjust height if collapsible is open
+        }
+    }
 }
 
 function enableStart() {
