@@ -1,14 +1,23 @@
 /* Used Colors:
 Grays:
-#ffffff - menu background
+#ffffff - menu background (white)
 #f9f9f9 - page background
 #eeeeee - well background
 #808080 - menu/well/collapsible shadow (gray)
-
+#d3d3d3 - "Coming Soon" background (lightgrey)
 
 Blues:
-#e6f9ff - header background
+#e6f9ff - header background, status message background
+#00bfff - unvisited link (deepskyblue)
+#6495ed - visited link (cornflowerblue)
 
+Reds/pinks:
+#f08080 - "Coming Soon" text, error message (lightcoral)
+#fff0f0 - error message background (lavenderblush)
+
+Greens:
+#ccffe6 - status message background
+#00cc66 - status message
 */
 
 html{
@@ -52,6 +61,10 @@ html{
 ul{
     padding-left: 20px;
     margin: 0px;
+}
+
+li{
+    margin:5px 0px;
 }
 
 .menu{
@@ -113,6 +126,16 @@ ul{
     border-radius:0px 0px 4px 4px;
 }
 
+code.buttonStyle{
+    border-radius: 2px;
+    padding: 2px;
+    background-color: #d3d3d3;
+    font-size: 13px;
+    border-color: #808080;
+    border-width: 1px;
+    border-style: groove;
+}
+
 .comingSoon{
     background-color: lightgrey;
     font-size: x-small;
@@ -122,6 +145,28 @@ ul{
     border-radius: 2px;
     display: inline;
     font-weight: normal;
+}
+
+#statusBox{
+    padding: 0 5px;
+    border-radius: 3px;
+    border-width: 1.5px;
+    border-style: solid;
+    font-size: small;
+}
+.status{
+    background-color: #e6f9ff;
+    color: deepskyblue;
+}
+
+.error{
+    color: lightcoral;
+    background-color: lavenderblush;
+}
+
+.confirmation{
+    background-color: #ccffe6;
+    color: #00cc66;
 }
 
 a:link{

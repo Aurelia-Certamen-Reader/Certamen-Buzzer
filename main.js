@@ -1,10 +1,7 @@
 let readSpeed = 250
-let questionNumber = -1
-let questionBank = []; /*= [
-["Pretend this is an actual question! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat. Yeah, I dunno man.", "Pretend this is an answer"], 
-["Next question! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat." + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat.", "It's a different answer now!"],
-["Question three: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor viverra maximus. Sed bibendum, justo sit amet auctor fringilla, ligula ante pretium eros, at hendrerit nunc lorem faucibus felis. Quisque quis sem vel lectus finibus feugiat id quis magna. Fusce fringilla, nisl non pellentesque vestibulum, ex tellus rutrum tortor, vitae rutrum libero mi in neque. Phasellus aliquet bibendum sem, id volutpat eros ultricies ac. Proin fermentum tellus non erat suscipit malesuada. Sed bibendum semper hendrerit. Phasellus in volutpat leo, vel condimentum erat.", "Would you look at that, a third answer for a third question."]
-]*/
+let questionBank = []
+let questionParts = []
+let showBoni = false
 
 function sleep(time){
     return new Promise(resolve => {setTimeout(resolve, time)});
@@ -16,84 +13,164 @@ function setReadSpeed(){
 
 async function printQuestion(){
     document.getElementById("next").innerHTML="Skip"
-    //Ensures first print instance stops before starting the next one
-    await sleep(readSpeed)
+    await sleep(readSpeed) //Ensures first print instance stops before starting the next one
     document.getElementById("next").disabled=false
     buzz=false
     document.getElementById("question").innerHTML = ""
-    if (questionNumber >= questionBank.length) {
-        questionNumber = -1
-        questionBank = []
-    }
-    else{
-        //Sets up text
-        let questionText = questionBank[questionNumber][0].split(" ")
-        //Question Printing
-        for (let x of questionText){
-            if (buzz == false){
-                document.getElementById("question").append(x + " ")
-                await sleep(readSpeed);
-            } 
-            else{
-                return
-            }
+    //Sets up text
+    let questionText = questionBank[0][questionParts[0]].split(" ")
+    //Question Printing
+    for (let x of questionText) {
+        if (buzz == false) {
+            document.getElementById("question").append(x + " ")
+            await sleep(readSpeed);
+        }
+        else {
+            return
         }
     }
 }
 
 function endQuestion() {
+    buzz = true; 
     document.getElementById("answerInput").style.visibility="visible"
     document.getElementById("answerInput").focus()
     document.getElementById("next").innerHTML="Next"
 }
 
 function displayAnswer(){
-    document.getElementById("question").innerHTML=questionBank[questionNumber][0]
-    document.getElementById("answerline").innerHTML = questionBank[questionNumber][1]
+    document.getElementById("question").innerHTML=questionBank[0][questionParts[0]]
+    document.getElementById("answerline").innerHTML = questionBank[0][[questionParts[0]] + "Answer"]
     document.getElementById("answerline").style.visibility="visible"
 }
 
-//Basically resets + advances questionNumber
+// Reset + advance to next question
 function nextQuestion() {
+    buzz = true; 
     document.getElementById("next").disabled=true
     document.getElementById("answerInput").style.visibility="hidden"
     document.getElementById('answerInput').value=""
     document.getElementById("answerline").style.visibility="hidden"
-    if (document.getElementById("question").innerHTML != "") {
-        logLastQuestion()
+    if (document.getElementById("question").innerHTML != "") { // if it's not the first time
+        logLastQuestion(questionParts.splice(0, 1)[0])
+        if (showBoni) {
+            if (questionParts.length == 0) {
+                questionBank.splice(0, 1) // removes first question
+                getQuestionParts(questionBank[0])
+            }
+        }
+        else{
+            questionBank.splice(0, 1)
+            getQuestionParts(questionBank[0])
+        }
     }
-    questionNumber+=1
+    else if (document.getElementById("next").innerHTML = "Start") {
+        getQuestionParts(questionBank[0]) // always has tossup as the first one, so works regardless of if showBoni is true/false
+    }
     printQuestion()
 }
 
-function logLastQuestion(){
+function getQuestionParts(question){
+    questionParts = []
+    for(key in question){
+        if(!key.match("Answer")){
+            questionParts.push(key)
+        }
+    }
+}
+
+function logLastQuestion(part) {
     questionLog = document.getElementById("questionLog")
-    const lastQuestion = questionBank[questionNumber]
-    const newDiv = document.createElement("div")
-    //Button/head
-    const questionData = "Custom question " + (questionNumber+1)
-    const newLogHead = document.createElement("button")
-    newLogHead.appendChild(document.createTextNode(questionData)) //puts text into button
-    newLogHead.classList.add("collapsible")
-    newDiv.appendChild(newLogHead)
-    //Body/well
-    const newLogBody= document.createElement("div")
-    //question text
-    const text = document.createElement("p")
-    text.append(document.createTextNode(lastQuestion[0]))
-    text.classList.add("question")
-    //answer text
-    const answer = document.createElement("p")
-    answer.append(document.createTextNode(lastQuestion[1]))
-    answer.classList.add("answer")
-    //append question and answer to well
-    newLogBody.appendChild(text)
-    newLogBody.appendChild(answer)
-    newDiv.appendChild(newLogBody)
-    newLogBody.classList.add("content")
-    //add log to document, then initialize collapsible
-    questionLog.insertBefore(newDiv, questionLog.firstChild)
-    initializeCollapsible(newLogHead)
+    const lastQuestion = questionBank[0]
+    if (part == "tossup") {
+        const newDiv = document.createElement("div")
+        //Button/head
+        const questionData = "Custom question"
+        const newLogHead = document.createElement("button")
+        newLogHead.appendChild(document.createTextNode(questionData)) //puts text into button
+        newLogHead.classList.add("collapsible")
+        newDiv.appendChild(newLogHead)
+        //Body/well
+        const newLogBody = document.createElement("div")
+        //question label
+        const questionLabel = document.createElement("p")
+        questionLabel.append(document.createTextNode("TOSSUP"))
+        questionLabel.setAttribute("style", "font-weight: bold;")
+        //question text
+        const text = document.createElement("p")
+        text.append(document.createTextNode(lastQuestion.tossup))
+        text.classList.add("question")
+        //answer text
+        const answer = document.createElement("p")
+        answer.append(document.createTextNode(lastQuestion.tossupAnswer))
+        answer.classList.add("answer")
+        //append question and answer to well contents
+        newLogBody.appendChild(questionLabel)
+        newLogBody.appendChild(text)
+        newLogBody.appendChild(answer)
+        if (!showBoni){
+            questionParts.forEach(part => {
+                //horizontal line
+                const line = document.createElement("hr")
+                line.setAttribute("style", "color: #eeeeee;")
+                //question label
+                const questionLabel = document.createElement("p")
+                questionLabel.append(document.createTextNode(part.replace("bonus", "BONUS ")))
+                questionLabel.setAttribute("style", "font-weight: bold;")
+                //question text
+                const text = document.createElement("p")
+                text.append(document.createTextNode(lastQuestion[part]))
+                text.classList.add("question")
+                //answer text
+                const answer = document.createElement("p")
+                answer.append(document.createTextNode(lastQuestion[part+"Answer"]))
+                answer.classList.add("answer")
+                //append question and answer to well contents
+                newLogBody.appendChild(line)
+                newLogBody.appendChild(questionLabel)
+                newLogBody.appendChild(text)
+                newLogBody.appendChild(answer)
+            })
+        }
+        // append well contents to div containing both head and well
+        newDiv.appendChild(newLogBody)
+        newLogBody.classList.add("content")
+        //add log to document, then initialize collapsible
+        questionLog.insertBefore(newDiv, questionLog.firstChild)
+        initializeCollapsible(newLogHead)
+    }
+    else{ // logging questions part by part when boni are also being shown
+        const logBody = questionLog.firstChild.lastChild
+        //horizontal line
+        const line = document.createElement("hr")
+        line.setAttribute("style", "color: #eeeeee;")
+        //question label
+        const questionLabel = document.createElement("p")
+        questionLabel.append(document.createTextNode(part.replace("bonus", "BONUS ")))
+        questionLabel.setAttribute("style", "font-weight: bold;")
+        //question text
+        const text = document.createElement("p")
+        text.append(document.createTextNode(lastQuestion[part]))
+        text.classList.add("question")
+        //answer text
+        const answer = document.createElement("p")
+        answer.append(document.createTextNode(lastQuestion[part + "Answer"]))
+        answer.classList.add("answer")
+        //append question and answer to well contents
+        logBody.appendChild(line)
+        logBody.appendChild(questionLabel)
+        logBody.appendChild(text)
+        logBody.appendChild(answer)
+        if(logBody.style.maxHeight){
+            logBody.style.maxHeight = logBody.scrollHeight + 20 + "px" // readjust height if collapsible is open
+        }
+    }
+}
+
+function enableStart() {
+    if (questionBank.length > 0) {
+        document.getElementById("next").disabled = false
+    }
 }
 
 function initializeCollapsible(button){
@@ -108,3 +185,32 @@ function initializeCollapsible(button){
         }
     })
 }
+
+function updateStatus(type, message){
+    let statusBox = document.getElementById("statusBox")
+    statusBox.setAttribute("class", type)
+    statusBox.firstChild.innerHTML = message
+    statusBox.style.display = "block"
+    sleep(2000)
+        .then(() => {
+            statusBox.style.display = "none"
+            statusBox.firstChild.innerHTML = ""})
+}
+
+//Buzzing hotkey
+let buzzKey = " "
+let nextKey = "ArrowRight"
+document.addEventListener('keydown', function(event){
+    if(!event.target.matches("textarea") && event.target.type!="text"){ // ensure hotkey isnt triggered by typing in a text entry box
+        if (event.key==buzzKey) {
+            event.preventDefault()
+            endQuestion()
+        }
+        else if (event.key==nextKey){
+            event.preventDefault()
+            if (!document.getElementById("next").disabled){
+                nextQuestion()
+            }
+        }
+    }
+})
