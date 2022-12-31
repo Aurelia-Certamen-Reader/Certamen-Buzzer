@@ -12,7 +12,7 @@
     <div id="main">
         <button type="button" onclick="endQuestion()">Buzz</button>
         <button type="button" onclick="nextQuestion()" id="next" disabled>Start</button>
-        <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer()" style="visibility: hidden;"></input>
+        <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer(); this.blur()" style="visibility: hidden;"></input>
         <p id="answerline" style="display:inline"></p>
         <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px; padding: 10px;"><p id="question" class="question"></p></div>
         
@@ -41,10 +41,10 @@
                 <p>Next/Skip: <input placeholder="Right arrow"style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
             </div>
         </div>
-        <div class="menuItem">
+        <!-- <div class="menuItem">
             <p class="menuHead" >Search for Questions <span class="comingSoon">Coming much later!</span></p>
             <div class="menuContent"></div>
-        </div>
+        </div> -->
         <div class="menuItem">
             <p class="menuHead">Upload Custom Questions</p>
             <div class="menuContent">
