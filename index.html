@@ -33,7 +33,7 @@
         <div class="menuItem">
             <p class="menuHead">Room Settings</p>
             <div class="menuContent">
-                <p>Reading Speed: <input id="readSpeed" style="width: 35px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
+                <p>Reading Speed: <input id="readSpeed" type ="number" onchange="readSpeed = this.value" value="250"> ms/word</p> 
                 <p>Show Boni: <label class = "switch"><input type="checkbox" checked onchange="showBoni=!showBoni;"><span class="slider"></label></span></p>
             </div>
         </div>

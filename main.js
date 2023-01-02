@@ -7,10 +7,6 @@ function sleep(time){
     return new Promise(resolve => {setTimeout(resolve, time)});
 }
 
-function setReadSpeed(){
-    readSpeed=document.getElementById("readSpeed").value
-}
-
 async function printQuestion(){
     document.getElementById("next").innerHTML="Skip"
     await sleep(readSpeed) //Ensures first print instance stops before starting the next one
