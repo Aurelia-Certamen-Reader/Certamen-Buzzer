@@ -31,14 +31,18 @@
             </div>
         </div>
         <div class="menuItem">
-            <p class="menuHead">Settings</p>
+            <p class="menuHead">Room Settings</p>
             <div class="menuContent">
-                <p>Reading speed:&Tab;<input id="readSpeed" style="width: 35px; text-align: center;" onchange="setReadSpeed()" placeholder="250" min="10" max="1000">&Tab;ms/word</p> 
-                <p>Buzzer Delay <span class="comingSoon">Coming Soon!</span></p> 
+                <p>Reading Speed: <input id="readSpeed" type ="number" onchange="readSpeed = this.value" value="250"> ms/word</p> 
+                <p>Show Boni: <label class = "switch"><input type="checkbox" checked onchange="showBoni=!showBoni;"><span class="slider"></label></span></p>
+            </div>
+        </div>
+        <div class="menuItem">
+            <p class="menuHead">Preferences</p>
+            <div class="menuContent">
                 <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
-                <p style="font-weight: bold;">Hotkeys:</p>
-                <p>Buzz: <input placeholder="Space" style="width: 75px; text-align: center;" onchange="if(this.value){buzzKey = this.value}else{buzzKey=' '}"></p>
-                <p>Next/Skip: <input placeholder="Right arrow"style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
+                <p>Buzz Hotkey: <input placeholder="Space" style="width: 75px; text-align: center;" onchange="if(this.value){buzzKey = this.value}else{buzzKey=' '}"></p>
+                <p>Next/Skip Hotkey: <input placeholder="Right arrow" style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
             </div>
         </div>
         <!-- <div class="menuItem">

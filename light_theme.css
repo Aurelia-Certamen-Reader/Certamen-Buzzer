@@ -146,6 +146,63 @@ code.buttonStyle{
     display: inline;
     font-weight: normal;
 }
+/* following both remove arrows from number input*/
+input[type=number]{
+    width: 35px; 
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/*Toggle Button*/
+.switch{
+    display: inline-block;
+    position: relative;
+    background-color: #808080;
+    width: 35px;
+    height: 20px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.switch input {
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.slider{
+    position: absolute;
+    left:0;
+    top:0;
+    width: 35px;
+    height: 20px;
+    border-radius: 10px;
+}
+input:checked+.slider {
+    background-color: #00bfff;
+}
+
+.slider::before{ /*white button part*/
+    content: "";
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+    background-color: white;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    transition: .2s;
+}
+
+input:checked+.slider::before {
+    transform: translateX(15px);
+}
 
 #statusBox{
     padding: 0 5px;

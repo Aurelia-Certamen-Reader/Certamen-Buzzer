@@ -1,14 +1,10 @@
 let readSpeed = 250
 let questionBank = []
 let questionParts = []
-let showBoni = false
+let showBoni = true
 
 function sleep(time){
     return new Promise(resolve => {setTimeout(resolve, time)});
-}
-
-function setReadSpeed(){
-    readSpeed=document.getElementById("readSpeed").value
 }
 
 async function printQuestion(){
@@ -82,6 +78,7 @@ function getQuestionParts(question){
 function logLastQuestion(part) {
     questionLog = document.getElementById("questionLog")
     const lastQuestion = questionBank[0]
+    let logBody
     if (part == "tossup") {
         const newDiv = document.createElement("div")
         //Button/head
@@ -91,7 +88,7 @@ function logLastQuestion(part) {
         newLogHead.classList.add("collapsible")
         newDiv.appendChild(newLogHead)
         //Body/well
-        const newLogBody = document.createElement("div")
+        logBody = document.createElement("div")
         //question label
         const questionLabel = document.createElement("p")
         questionLabel.append(document.createTextNode("TOSSUP"))
@@ -105,42 +102,18 @@ function logLastQuestion(part) {
         answer.append(document.createTextNode(lastQuestion.tossupAnswer))
         answer.classList.add("answer")
         //append question and answer to well contents
-        newLogBody.appendChild(questionLabel)
-        newLogBody.appendChild(text)
-        newLogBody.appendChild(answer)
-        if (!showBoni){
-            questionParts.forEach(part => {
-                //horizontal line
-                const line = document.createElement("hr")
-                line.setAttribute("style", "color: #eeeeee;")
-                //question label
-                const questionLabel = document.createElement("p")
-                questionLabel.append(document.createTextNode(part.replace("bonus", "BONUS ")))
-                questionLabel.setAttribute("style", "font-weight: bold;")
-                //question text
-                const text = document.createElement("p")
-                text.append(document.createTextNode(lastQuestion[part]))
-                text.classList.add("question")
-                //answer text
-                const answer = document.createElement("p")
-                answer.append(document.createTextNode(lastQuestion[part+"Answer"]))
-                answer.classList.add("answer")
-                //append question and answer to well contents
-                newLogBody.appendChild(line)
-                newLogBody.appendChild(questionLabel)
-                newLogBody.appendChild(text)
-                newLogBody.appendChild(answer)
-            })
-        }
+        logBody.appendChild(questionLabel)
+        logBody.appendChild(text)
+        logBody.appendChild(answer)
         // append well contents to div containing both head and well
-        newDiv.appendChild(newLogBody)
-        newLogBody.classList.add("content")
+        newDiv.appendChild(logBody)
+        logBody.classList.add("content")
         //add log to document, then initialize collapsible
         questionLog.insertBefore(newDiv, questionLog.firstChild)
         initializeCollapsible(newLogHead)
     }
     else{ // logging questions part by part when boni are also being shown
-        const logBody = questionLog.firstChild.lastChild
+        logBody = questionLog.firstChild.lastChild
         //horizontal line
         const line = document.createElement("hr")
         line.setAttribute("style", "color: #eeeeee;")
@@ -161,9 +134,33 @@ function logLastQuestion(part) {
         logBody.appendChild(questionLabel)
         logBody.appendChild(text)
         logBody.appendChild(answer)
-        if(logBody.style.maxHeight){
-            logBody.style.maxHeight = logBody.scrollHeight + 20 + "px" // readjust height if collapsible is open
-        }
+    }
+    if (!showBoni) {
+        questionParts.forEach(part => {
+            //horizontal line
+            const line = document.createElement("hr")
+            line.setAttribute("style", "color: #eeeeee;")
+            //question label
+            const questionLabel = document.createElement("p")
+            questionLabel.append(document.createTextNode(part.replace("bonus", "BONUS ")))
+            questionLabel.setAttribute("style", "font-weight: bold;")
+            //question text
+            const text = document.createElement("p")
+            text.append(document.createTextNode(lastQuestion[part]))
+            text.classList.add("question")
+            //answer text
+            const answer = document.createElement("p")
+            answer.append(document.createTextNode(lastQuestion[part + "Answer"]))
+            answer.classList.add("answer")
+            //append question and answer to well contents
+            logBody.appendChild(line)
+            logBody.appendChild(questionLabel)
+            logBody.appendChild(text)
+            logBody.appendChild(answer)
+        })
+    }
+    if (logBody.style.maxHeight) {
+        logBody.style.maxHeight = logBody.scrollHeight + 20 + "px" // readjust height if collapsible is open
     }
 }
 
