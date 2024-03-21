@@ -1,5 +1,5 @@
 const tossupMarkers = new RegExp("^[^(a-z|A-Z)]*(?:TU|Tossup)[^(a-z|A-Z)]+", 'm') //?: makes the group non-capturing so it's not included in split
-const bonusMarkers = /\s+B(?:onus)?\s*(?:1|2)[\W\s]+(?:B(?:onus)?\s*(?:1|2)[\W\s]+)?/ //"B#" (second part added to account for questions where bonus 1 and 2 are combined)
+const bonusMarkers = /\s+(?:B(?:onus)?\s*(?:1|2)[\W\s]+)+/ //"B#" (last + to account for questions where bonus 1 and 2 are combined so it consumes stuff like B1&B2)
 const answerPattern = /(?<=\s+)[^a-z__]+$/
 const urlPattern = /(?<=\/d\/)[^/]*/
 
@@ -44,11 +44,17 @@ function splitQuestions(fullText){
     newQuestions.forEach(element => {
         temp = element.split(bonusMarkers)
         question = {}
-        question.tossup = separateAnswer(temp[0])[0]
-        question.tossupAnswer = separateAnswer(temp[0])[1]
+        let split = separateAnswer(temp[0])
+        if(split){
+            question.tossup = split[0]
+            question.tossupAnswer = split[1]
+        }
         for (let i = 1; i < temp.length; i++) {
-            question["bonus" + i] = separateAnswer(temp[i])[0]
-            question["bonus" + i + "Answer"] = separateAnswer(temp[i])[1]
+            let split = separateAnswer(temp[i])
+            if(split){
+                question["bonus" + i] = split[0]
+                question["bonus" + i + "Answer"] = split[1]
+            }
         }
         addedQuestions.push(question)
     });
@@ -57,13 +63,17 @@ function splitQuestions(fullText){
 }
 
 function separateAnswer(text){
+    text = text.trim()
     let answer = text.match(answerPattern)
     if (!answer) { // if answer is null
         answer = text.match(/(?<=[\.?!:"”]\s+).+$/) // lookbehind (one of the punctuation marks followed by some form of whitespace 1+ times), then any non-linebreak at least one time before the end of the string
     }
-    let question = text.replace(answer, "")
+    if (!answer){
+        answer = text.match(/.+$/) // last line
+    }
     if (answer) { // if the answer exists after both attempts
         answer = answer[0] //.match() returns an array, the first element is the answer
+        let question = text.replace(answer, "")
         return [question.trim(), answer.trim()]
     }
     else {
