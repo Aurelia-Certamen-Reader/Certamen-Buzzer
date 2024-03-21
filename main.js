@@ -29,6 +29,7 @@ async function printQuestion(){
 
 function endQuestion() {
     buzz = true; 
+    document.getElementById("buzz").disabled = true
     document.getElementById("answerInput").style.visibility="visible"
     document.getElementById("answerInput").focus()
     document.getElementById("next").innerHTML="Next"
@@ -43,9 +44,10 @@ function displayAnswer(){
 // Reset + advance to next question
 function nextQuestion() {
     buzz = true; 
+    document.getElementById("buzz").disabled = false
     document.getElementById("next").disabled=true
     document.getElementById("answerInput").style.visibility="hidden"
-    document.getElementById('answerInput').value=""
+    document.getElementById("answerInput").value=""
     document.getElementById("answerline").style.visibility="hidden"
     if (document.getElementById("question").innerHTML != "") { // if it's not the first time
         logLastQuestion(questionParts.splice(0, 1)[0])
@@ -63,7 +65,15 @@ function nextQuestion() {
     else if (document.getElementById("next").innerHTML = "Start") {
         getQuestionParts(questionBank[0]) // always has tossup as the first one, so works regardless of if showBoni is true/false
     }
-    printQuestion()
+    if (questionBank.length == 0){ // if that was the last question
+        document.getElementById("buzz").innerHTML = "Start"
+        document.getElementById("buzz").disabled = true
+        document.getElementById("next").disabled = true
+        document.getElementById("question").innerHTML = ""
+    }
+    else {
+        printQuestion()
+    }
 }
 
 function getQuestionParts(question){
@@ -166,7 +176,17 @@ function logLastQuestion(part) {
 
 function enableStart() {
     if (questionBank.length > 0) {
-        document.getElementById("next").disabled = false
+        document.getElementById("buzz").disabled = false
+    }
+}
+
+function start() {
+    if (document.getElementById("buzz").innerHTML == "Start"){
+        document.getElementById("buzz").innerHTML = "Buzz" 
+        nextQuestion()
+    } 
+    else{
+        endQuestion()
     }
 }
 
@@ -196,12 +216,14 @@ function updateStatus(type, message){
 
 //Buzzing hotkey
 let buzzKey = " "
-let nextKey = "ArrowRight"
+let nextKey = "Enter"
 document.addEventListener('keydown', function(event){
     if(!event.target.matches("textarea") && event.target.type!="text"){ // ensure hotkey isnt triggered by typing in a text entry box
         if (event.key==buzzKey) {
             event.preventDefault()
-            endQuestion()
+            if (!document.getElementById("buzz").disabled){
+                start()
+            }
         }
         else if (event.key==nextKey){
             event.preventDefault()

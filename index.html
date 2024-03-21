@@ -10,8 +10,8 @@
 <!--dummy header (for spacing)--> <div style="height: 55px;"></div>
 <div style="display:flex; width: 100%; justify-content: space-between;">
     <div id="main">
-        <button type="button" onclick="endQuestion()">Buzz</button>
-        <button type="button" onclick="nextQuestion()" id="next" disabled>Start</button>
+        <button type="button" onclick="start()" id="buzz" disabled>Start</button>
+        <button type="button" onclick="nextQuestion()" id="next" disabled>Next</button>
         <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer(); this.blur()" style="visibility: hidden;"></input>
         <p id="answerline" style="display:inline"></p>
         <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px; padding: 10px;"><p id="question" class="question"></p></div>
@@ -23,7 +23,7 @@
             <p class="menuHead">Instructions</p>
             <div class="menuContent">
                 <ul>
-                    <li>Upload questions to start</li>
+                    <li>Upload questions to <code class="buttonStyle">Start</code></li>
                     <li>Press <code class="buttonStyle">Buzz</code> to answer</li>
                     <li>Press <code class="buttonStyle">Next/Skip</code> to advance to the next question</li>
                     <li>Enter an answer and then hit enter to reveal the correct answer and the rest of the question</li>
@@ -42,7 +42,7 @@
             <div class="menuContent">
                 <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
                 <p>Buzz Hotkey: <input placeholder="Space" style="width: 75px; text-align: center;" onchange="if(this.value){buzzKey = this.value}else{buzzKey=' '}"></p>
-                <p>Next/Skip Hotkey: <input placeholder="Right arrow" style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
+                <p>Next/Skip Hotkey: <input placeholder="Enter" style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
             </div>
         </div>
         <!-- <div class="menuItem">
