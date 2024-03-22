@@ -3,22 +3,29 @@ let questionBank = []
 let questionParts = []
 let showBoni = true
 
+// Common references
+const buzzButton = document.getElementById("buzz")
+const nextButton = document.getElementById("next")
+const answerInput = document.getElementById("answerInput")
+const answerDisplay = document.getElementById("answerline")
+const questionDisplay = document.getElementById("question")
+
 function sleep(time){
     return new Promise(resolve => {setTimeout(resolve, time)});
 }
 
 async function printQuestion(){
-    document.getElementById("next").innerHTML="Skip"
+    nextButton.innerHTML="Skip"
     await sleep(readSpeed) //Ensures first print instance stops before starting the next one
-    document.getElementById("next").disabled=false
+    nextButton.disabled=false
     buzz=false
-    document.getElementById("question").innerHTML = ""
+    questionDisplay.innerHTML = ""
     //Sets up text
     let questionText = questionBank[0][questionParts[0]].split(" ")
     //Question Printing
     for (let x of questionText) {
         if (buzz == false) {
-            document.getElementById("question").append(x + " ")
+            questionDisplay.append(x + " ")
             await sleep(readSpeed);
         }
         else {
@@ -29,27 +36,27 @@ async function printQuestion(){
 
 function endQuestion() {
     buzz = true; 
-    document.getElementById("buzz").disabled = true
-    document.getElementById("answerInput").style.visibility="visible"
-    document.getElementById("answerInput").focus()
-    document.getElementById("next").innerHTML="Next"
+    buzzButton.disabled = true
+    answerInput.style.visibility="visible"
+    answerInput.focus()
+    nextButton.innerHTML="Next"
 }
 
 function displayAnswer(){
-    document.getElementById("question").innerHTML=questionBank[0][questionParts[0]]
-    document.getElementById("answerline").innerHTML = questionBank[0][[questionParts[0]] + "Answer"]
-    document.getElementById("answerline").style.visibility="visible"
+    questionDisplay.innerHTML=questionBank[0][questionParts[0]]
+    answerDisplay.innerHTML = questionBank[0][[questionParts[0]] + "Answer"]
+    answerDisplay.style.visibility="visible"
 }
 
 // Reset + advance to next question
 function nextQuestion() {
     buzz = true; 
-    document.getElementById("buzz").disabled = false
-    document.getElementById("next").disabled=true
-    document.getElementById("answerInput").style.visibility="hidden"
-    document.getElementById("answerInput").value=""
-    document.getElementById("answerline").style.visibility="hidden"
-    if (document.getElementById("question").innerHTML != "") { // if it's not the first time
+    buzzButton.disabled = false
+    nextButton.disabled=true
+    answerInput.style.visibility="hidden"
+    answerInput.value=""
+    answerDisplay.style.visibility="hidden"
+    if (questionDisplay.innerHTML != "") { // if it's not the first time
         logLastQuestion(questionParts.splice(0, 1)[0])
         if (showBoni) {
             if (questionParts.length == 0) {
@@ -62,14 +69,14 @@ function nextQuestion() {
             getQuestionParts(questionBank[0])
         }
     }
-    else if (document.getElementById("next").innerHTML = "Start") {
+    else if (nextButton.innerHTML = "Start") {
         getQuestionParts(questionBank[0]) // always has tossup as the first one, so works regardless of if showBoni is true/false
     }
     if (questionBank.length == 0){ // if that was the last question
-        document.getElementById("buzz").innerHTML = "Start"
-        document.getElementById("buzz").disabled = true
-        document.getElementById("next").disabled = true
-        document.getElementById("question").innerHTML = ""
+        buzzButton.innerHTML = "Start"
+        buzzButton.disabled = true
+        nextButton.disabled = true
+        questionDisplay.innerHTML = ""
     }
     else {
         printQuestion()
@@ -176,13 +183,13 @@ function logLastQuestion(part) {
 
 function enableStart() {
     if (questionBank.length > 0) {
-        document.getElementById("buzz").disabled = false
+        buzzButton.disabled = false
     }
 }
 
 function start() {
-    if (document.getElementById("buzz").innerHTML == "Start"){
-        document.getElementById("buzz").innerHTML = "Buzz" 
+    if (buzzButton.innerHTML == "Start"){
+        buzzButton.innerHTML = "Buzz" 
         nextQuestion()
     } 
     else{
@@ -221,13 +228,13 @@ document.addEventListener('keydown', function(event){
     if(!event.target.matches("textarea") && event.target.type!="text"){ // ensure hotkey isnt triggered by typing in a text entry box
         if (event.key==buzzKey) {
             event.preventDefault()
-            if (!document.getElementById("buzz").disabled){
+            if (!buzzButton.disabled){
                 start()
             }
         }
         else if (event.key==nextKey){
             event.preventDefault()
-            if (!document.getElementById("next").disabled){
+            if (!nextButton.disabled){
                 nextQuestion()
             }
         }
